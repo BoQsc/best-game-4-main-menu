@@ -43,7 +43,7 @@ script/source = "extends VideoStreamPlayer
 @export var menu_reveal_duration: float = 2.0    # How fast black screen fades to menu
 
 # Start showing the logo this many seconds before the video ends
-@export var transition_lead_time: float = 2.0
+@export var transition_lead_time: float = 1.5
 
 var _logo_fade_started: bool = false
 var _sequence_finished: bool = false
@@ -358,8 +358,6 @@ script = SubResource("GDScript_d2bti")
 fade_overlay = NodePath("../FadeOverlay")
 intro_container = NodePath("../..")
 best_game_logo = NodePath("../BestGameProductionsLogo")
-logo_fade_in_duration = 1.5
-transition_lead_time = 4.0
 
 [node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
 modulate = Color(1, 1, 1, 0)
