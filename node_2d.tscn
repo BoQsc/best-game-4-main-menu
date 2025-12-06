@@ -29,25 +29,42 @@ viewport_path = NodePath("IntroVideo/SubViewport")
 resource_name = "BestGamesIntroVideoPlayer"
 script/source = "extends VideoStreamPlayer
 
-# 1. This creates a slot in the Inspector to assign your specific node
-@export var intro_video_rect: TextureRect
+# Assign these in the Inspector
+@export var fade_overlay: ColorRect    # IntroVideo/SubViewport/ColorRect
+@export var intro_container: TextureRect # IntroVideo
 
 func _ready():
 	finished.connect(_on_video_finished)
-	# Ensure it starts fully visible
-	if intro_video_rect:
-		intro_video_rect.modulate.a = 1.0
+	
+	# Setup: Ensure Overlay is invisible, Video is visible
+	if fade_overlay:
+		fade_overlay.modulate.a = 0.0
+	modulate.a = 1.0
 
 func _on_video_finished():
-	# Check if the node is assigned to avoid errors
-	if intro_video_rect:
+	if fade_overlay and intro_container:
 		var tween = create_tween()
 		
-		# 2. Fade the \"IntroVideo\" node (not just the player)
-		tween.tween_property(intro_video_rect, \"modulate:a\", 0.0, 0.5)
+		# set_parallel(true) makes the next two animations happen at the same time
+		tween.set_parallel(true)
 		
-		# 3. After fade, set IntroVideo visibility to false
-		tween.tween_callback(func(): intro_video_rect.visible = false)
+		# 1. Fade IN the Overlay (0 -> 1)
+		tween.tween_property(fade_overlay, \"modulate:a\", 1.0, 1.0)
+		
+		# 2. Fade OUT this Video Player (1 -> 0)
+		tween.tween_property(self, \"modulate:a\", 0.0, 1.0)
+		
+		# 3. Chain the cleanup callback (after the parallel part is done)
+		# We use set_parallel(false) to stop parallel mode for the callback
+		tween.chain().tween_callback(_cleanup_nodes)
+
+func _cleanup_nodes():
+	# Turn off the Main Container
+	intro_container.visible = false
+	
+	# Turn off the Player explicitly
+	visible = false
+	stop()
 "
 
 [node name="Control" type="Control"]
@@ -252,7 +269,15 @@ texture = SubResource("ViewportTexture_d2bti")
 [node name="SubViewport" type="SubViewport" parent="IntroVideo"]
 size = Vector2i(1100, 512)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("intro_video_rect")]
+[node name="ColorRect" type="ColorRect" parent="IntroVideo/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -262,4 +287,5 @@ stream = ExtResource("1_d2bti")
 autoplay = true
 expand = true
 script = SubResource("GDScript_d2bti")
-intro_video_rect = NodePath("../..")
+fade_overlay = NodePath("../ColorRect")
+intro_container = NodePath("../..")
