@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://day3popjfdyvp"]
+[gd_scene load_steps=21 format=3 uid="uid://day3popjfdyvp"]
 
 [ext_resource type="VideoStream" uid="uid://omanirsks1kj" path="res://best_games_productions-1.ogv" id="1_d2bti"]
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bmvk764bextck" path="res://button_credits.png" id="7_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://dqu7e7j5vtoc1" path="res://button_credits_hover.png" id="8_hqns4"]
 [ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
+[ext_resource type="Texture2D" uid="uid://cr4f34p0oa0f0" path="res://best_game_productions_logo.png" id="15_ta5nu"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("MainMenuBackground/SubViewport")
@@ -48,9 +49,9 @@ func _on_video_finished():
 		# --- PHASE 1: Crossfade to Solid Color ---
 		tween.set_parallel(true)
 		# Fade IN the Overlay (0 -> 1)
-		tween.tween_property(fade_overlay, \"modulate:a\", 1.0, 1.0)
+		tween.tween_property(fade_overlay, \"modulate:a\", 1.0, 0.3)
 		# Fade OUT this Video Player (1 -> 0)
-		tween.tween_property(self, \"modulate:a\", 0.0, 1.0)
+		tween.tween_property(self, \"modulate:a\", 0.0, 0.3)
 		
 		# --- PHASE 2: The Suspense (Hold) ---
 		# chain() tells the tween: \"Wait for previous parallel steps to finish\"
@@ -60,7 +61,7 @@ func _on_video_finished():
 		# --- PHASE 3: Fade Out Overlay (Reveal Game) ---
 		# chain() again to wait for the interval to finish
 		# We fade the overlay back to 0 so we can see the menu/game behind it
-		tween.chain().tween_property(fade_overlay, \"modulate:a\", 0.0, 1.0)
+		tween.chain().tween_property(fade_overlay, \"modulate:a\", 0.0, 0.3)
 		
 		# --- PHASE 4: Cleanup ---
 		# Finally, disable the nodes completely
@@ -289,6 +290,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
+position = Vector2(556.195, 288)
+texture = ExtResource("15_ta5nu")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container")]
 anchors_preset = 15
