@@ -110,7 +110,7 @@ offset_right = -43.444458
 offset_bottom = 43.474762
 grow_horizontal = 0
 grow_vertical = 0
-text = "0.0.0.1"
+text = "0.0.0.0"
 label_settings = SubResource("LabelSettings_x0ka3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/TextureButton5"]
