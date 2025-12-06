@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://day3popjfdyvp"]
+[gd_scene load_steps=17 format=3 uid="uid://day3popjfdyvp"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
 [ext_resource type="Texture2D" uid="uid://daqabufuflaop" path="res://bestgame4 ui.png" id="3_epypp"]
 [ext_resource type="Texture2D" uid="uid://b452fe46xnsqn" path="res://button_play.png" id="3_kdubu"]
+[ext_resource type="Texture2D" uid="uid://c48p1n2sb3o8s" path="res://steam_button.png" id="3_nr8wp"]
 [ext_resource type="Texture2D" uid="uid://cjdds3jh36tm2" path="res://Best game 4 logo.png" id="3_x0ka3"]
+[ext_resource type="Texture2D" uid="uid://cvl7620jvvy3y" path="res://steam_button_hover.png" id="4_d2bti"]
 [ext_resource type="Texture2D" uid="uid://cv5gqk76vuprl" path="res://button_options.png" id="4_d21ai"]
 [ext_resource type="Texture2D" uid="uid://djtaocrtjg8wf" path="res://button_play_hover.png" id="4_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://crujxn42endqb" path="res://button_quit.png" id="5_rj586"]
@@ -63,6 +65,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -187.0
+offset_bottom = 57.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+
+[node name="TextureButton" type="TextureButton" parent="MainMenu/MarginContainer"]
+layout_mode = 2
+texture_normal = ExtResource("3_nr8wp")
+texture_pressed = ExtResource("4_d2bti")
+texture_hover = ExtResource("4_d2bti")
 
 [node name="TextureButton5" type="TextureButton" parent="MainMenu"]
 layout_mode = 1
