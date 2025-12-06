@@ -56,8 +56,6 @@ loop = true
 stream = ExtResource("2_0e48y")
 autoplay = true
 
-[node name="Node2D" type="Node2D" parent="TextureRect"]
-
 [node name="MainMenu" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
