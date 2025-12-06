@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://day3popjfdyvp"]
+[gd_scene load_steps=21 format=3 uid="uid://dmuoprrg3jyef"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
@@ -329,14 +329,14 @@ transparent_bg = true
 size = Vector2i(1100, 512)
 
 [node name="FadeOverlay" type="ColorRect" parent="IntroVideo/SubViewport"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo") ]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -349,8 +349,10 @@ script = SubResource("GDScript_d2bti")
 fade_overlay = NodePath("../FadeOverlay")
 intro_container = NodePath("../..")
 best_game_logo = NodePath("../BestGameProductionsLogo")
-transition_lead_time = 2.0
+logo_fade_in_duration = 1.5
+transition_lead_time = 4.0
 
 [node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(556.195, 288)
 texture = ExtResource("15_ta5nu")
