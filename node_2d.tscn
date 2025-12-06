@@ -43,7 +43,7 @@ script/source = "extends VideoStreamPlayer
 @export var menu_reveal_duration: float = 2.0    # How fast black screen fades to menu
 
 # Start showing the logo this many seconds before the video ends
-@export var transition_lead_time: float = 1.0 
+@export var transition_lead_time: float = 2.0
 
 var _logo_fade_started: bool = false
 var _sequence_finished: bool = false
@@ -53,9 +53,9 @@ func _ready():
 	
 	# SETUP INITIAL STATES:
 	
-	# 1. Overlay: Visible and Black (Sitting BEHIND the video)
+	# 1. Overlay: Hidden initially (prevent interference during video)
 	if fade_overlay:
-		fade_overlay.visible = true
+		fade_overlay.visible = false
 		fade_overlay.color = Color.BLACK
 		fade_overlay.modulate.a = 1.0 
 	
@@ -93,24 +93,28 @@ func _on_video_finished():
 	if _sequence_finished: return
 	_sequence_finished = true
 	
-	# 1. Instantly Hide the Video 
+	# 1. Ensure Overlay is Visible (It sits BEHIND the video)
+	if fade_overlay:
+		fade_overlay.visible = true
+	
+	# 2. Instantly Hide the Video 
 	# (This reveals the Black Overlay underneath, but the Logo remains visible on top)
 	visible = false 
 	
 	var tween = create_tween()
 	
-	# 2. HOLD LOGO (It is now sitting on the Black Overlay)
+	# 3. HOLD LOGO (It is now sitting on the Black Overlay)
 	tween.tween_interval(logo_hold_duration)
 	
-	# 3. FADE OUT LOGO (Revealing just the Black Overlay)
+	# 4. FADE OUT LOGO (Revealing just the Black Overlay)
 	if best_game_logo:
 		tween.tween_property(best_game_logo, \"modulate:a\", 0.0, logo_fade_out_duration).set_trans(Tween.TRANS_SINE)
 	
-	# 4. FADE OUT OVERLAY (Revealing the Menu)
+	# 5. FADE OUT OVERLAY (Revealing the Menu)
 	if fade_overlay:
 		tween.tween_property(fade_overlay, \"modulate:a\", 0.0, menu_reveal_duration).set_trans(Tween.TRANS_SINE)
 	
-	# 5. CLEANUP
+	# 6. CLEANUP
 	tween.tween_callback(_cleanup_nodes)
 
 func _cleanup_nodes():
@@ -332,7 +336,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo")]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo") ]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -345,7 +349,7 @@ script = SubResource("GDScript_d2bti")
 fade_overlay = NodePath("../FadeOverlay")
 intro_container = NodePath("../..")
 best_game_logo = NodePath("../BestGameProductionsLogo")
-transition_lead_time = 2.705
+transition_lead_time = 2.0
 
 [node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
 position = Vector2(556.195, 288)
