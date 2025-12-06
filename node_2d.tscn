@@ -35,6 +35,7 @@ script/source = "extends VideoStreamPlayer
 @export var fade_overlay: ColorRect        
 @export var intro_container: TextureRect   
 @export var best_game_logo: CanvasItem        
+@export var music_player: AudioStreamPlayer
 
 @export_group(\"Animation Settings\")
 @export var logo_fade_in_duration: float = 1.0   # How fast logo appears over video
@@ -49,6 +50,9 @@ var _logo_fade_started: bool = false
 var _sequence_finished: bool = false
 
 func _ready():
+	if music_player:
+		music_player.play(45.0)
+
 	finished.connect(_on_video_finished)
 	
 	# SETUP INITIAL STATES:
@@ -358,6 +362,7 @@ script = SubResource("GDScript_d2bti")
 fade_overlay = NodePath("../FadeOverlay")
 intro_container = NodePath("../..")
 best_game_logo = NodePath("../BestGameProductionsLogo")
+music_player = NodePath("../../../MainMenuBackground/SubViewport/AudioStreamPlayer")
 
 [node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
 modulate = Color(1, 1, 1, 0)

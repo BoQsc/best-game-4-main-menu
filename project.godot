@@ -11,6 +11,6 @@ config_version=5
 [application]
 
 config/name="Best Game 4 Main Menu"
-run/main_scene="uid://day3popjfdyvp"
+run/main_scene="uid://dmuoprrg3jyef"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
