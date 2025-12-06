@@ -106,34 +106,45 @@ grow_vertical = 0
 scale = Vector2(0.46, 0.46)
 pivot_offset = Vector2(50, 0)
 
-[node name="TextureButton" type="TextureButton" parent="MainMenu/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton" type="TextureButton" parent="MainMenu/HBoxContainer/MarginContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_kdubu")
 texture_pressed = ExtResource("4_q6r6c")
 texture_hover = ExtResource("4_q6r6c")
 
-[node name="TextureButton2" type="TextureButton" parent="MainMenu/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton2" type="TextureButton" parent="MainMenu/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 texture_normal = ExtResource("4_d21ai")
 texture_pressed = ExtResource("6_4d7sh")
 texture_hover = ExtResource("6_4d7sh")
 
-[node name="TextureButton3" type="TextureButton" parent="MainMenu/HBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton3" type="TextureButton" parent="MainMenu/HBoxContainer/MarginContainer3"]
 layout_mode = 2
 texture_normal = ExtResource("7_ir8iy")
 texture_pressed = ExtResource("8_hqns4")
 texture_hover = ExtResource("8_hqns4")
 
-[node name="TextureButton4" type="TextureButton" parent="MainMenu/HBoxContainer"]
+[node name="MarginContainer4" type="MarginContainer" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton4" type="TextureButton" parent="MainMenu/HBoxContainer/MarginContainer4"]
 layout_mode = 2
 texture_normal = ExtResource("5_rj586")
 texture_pressed = ExtResource("10_hqns4")
 texture_hover = ExtResource("10_hqns4")
-
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="Panel" type="CenterContainer" parent="."]
 visible = false
