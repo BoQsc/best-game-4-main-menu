@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://day3popjfdyvp"]
+[gd_scene load_steps=15 format=3 uid="uid://day3popjfdyvp"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
 [ext_resource type="Texture2D" uid="uid://daqabufuflaop" path="res://bestgame4 ui.png" id="3_epypp"]
 [ext_resource type="Texture2D" uid="uid://b452fe46xnsqn" path="res://button_play.png" id="3_kdubu"]
+[ext_resource type="Texture2D" uid="uid://cjdds3jh36tm2" path="res://Best game 4 logo.png" id="3_x0ka3"]
 [ext_resource type="Texture2D" uid="uid://cv5gqk76vuprl" path="res://button_options.png" id="4_d21ai"]
 [ext_resource type="Texture2D" uid="uid://djtaocrtjg8wf" path="res://button_play_hover.png" id="4_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://crujxn42endqb" path="res://button_quit.png" id="5_rj586"]
@@ -14,6 +15,9 @@
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("TextureRect/SubViewport")
+
+[sub_resource type="LabelSettings" id="LabelSettings_x0ka3"]
+font_size = 61
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -59,6 +63,35 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureButton5" type="TextureButton" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 85.00001
+offset_top = -315.0
+offset_right = 1474.0
+offset_bottom = 73.0
+grow_vertical = 0
+scale = Vector2(0.495, 0.495)
+texture_normal = ExtResource("3_x0ka3")
+
+[node name="Label" type="Label" parent="MainMenu/TextureButton5"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -253.64648
+offset_top = -52.646515
+offset_right = -63.646484
+offset_bottom = 31.353485
+grow_horizontal = 0
+grow_vertical = 0
+text = "0.0.0.1"
+label_settings = SubResource("LabelSettings_x0ka3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
 layout_mode = 1
