@@ -56,8 +56,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 16.72
 
-[node name="Sprite2D" type="Sprite2D" parent="Panel"]
-position = Vector2(637, 245)
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel/CenterContainer"]
+position = Vector2(37, -115)
 scale = Vector2(0.42187503, 0.4208776)
 texture = ExtResource("3_epypp")
 
@@ -72,6 +75,8 @@ offset_left = -227.0
 offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="Label" type="Label" parent="MarginContainer"]
 layout_mode = 2
