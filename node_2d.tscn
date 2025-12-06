@@ -83,6 +83,9 @@ func _process(_delta):
 func _start_logo_appearance():
 	_logo_fade_started = true
 	
+	if fade_overlay:
+		fade_overlay.visible = true
+	
 	if best_game_logo:
 		var tween = create_tween()
 		# Fade Logo from Invisible (0) to Visible (1) ON TOP of the video
@@ -97,9 +100,15 @@ func _on_video_finished():
 	if fade_overlay:
 		fade_overlay.visible = true
 	
-	# 2. Instantly Hide the Video 
-	# (This reveals the Black Overlay underneath, but the Logo remains visible on top)
-	visible = false 
+	# 2. Smoothly Hide the Video (Use modulate instead of visible to avoid blinking)
+	# This reveals the Black Overlay underneath, but the Logo remains visible on top
+	modulate.a = 0.0
+	
+	# FAILSAFE: If video ended before logo started fading in (e.g. video too short),
+	# force start the sequence so we don't get stuck in a weird state.
+	if not _logo_fade_started:
+		if best_game_logo:
+			best_game_logo.modulate.a = 1.0 # Force visible immediately
 	
 	var tween = create_tween()
 	
