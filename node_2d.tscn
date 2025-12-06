@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
 [ext_resource type="Texture2D" uid="uid://cr4f34p0oa0f0" path="res://best_game_productions_logo.png" id="15_ta5nu"]
 [ext_resource type="VideoStream" uid="uid://djc4cgksqbyx6" path="res://best_games_productions_intro.ogv" id="16_ta5nu"]
+[ext_resource type="Script" path="res://main_menu.gd" id="17_main_menu"]
+[ext_resource type="AudioStream" uid="uid://c8srkodwpjkbo" path="res://sfx/computer-mouse-click-352734.mp3" id="18_click_sfx"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("MainMenuBackground/SubViewport")
@@ -145,6 +147,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("17_main_menu")
 
 [node name="MainMenuBackground" type="TextureRect" parent="."]
 layout_mode = 1
@@ -368,3 +371,7 @@ music_player = NodePath("../../../MainMenuBackground/SubViewport/AudioStreamPlay
 modulate = Color(1, 1, 1, 0)
 position = Vector2(556.195, 288)
 texture = ExtResource("15_ta5nu")
+
+[node name="ClickSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_click_sfx")
+
