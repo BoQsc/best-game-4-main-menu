@@ -80,17 +80,17 @@ grow_vertical = 2
 scale = Vector2(0.495, 0.495)
 texture_normal = ExtResource("3_x0ka3")
 
-[node name="Label" type="Label" parent="MainMenu/TextureButton5"]
+[node name="Version" type="Label" parent="MainMenu/TextureButton5"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -253.64648
-offset_top = -52.646515
-offset_right = -63.646484
-offset_bottom = 31.353485
+offset_left = -233.44446
+offset_top = -40.525238
+offset_right = -43.444458
+offset_bottom = 43.474762
 grow_horizontal = 0
 grow_vertical = 0
 text = "0.0.0.1"
