@@ -1,11 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://day3popjfdyvp"]
+[gd_scene load_steps=13 format=3 uid="uid://day3popjfdyvp"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
 [ext_resource type="Texture2D" uid="uid://daqabufuflaop" path="res://bestgame4 ui.png" id="3_epypp"]
 [ext_resource type="Texture2D" uid="uid://b452fe46xnsqn" path="res://button_play.png" id="3_kdubu"]
 [ext_resource type="Texture2D" uid="uid://cv5gqk76vuprl" path="res://button_options.png" id="4_d21ai"]
+[ext_resource type="Texture2D" uid="uid://djtaocrtjg8wf" path="res://button_play_hover.png" id="4_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://crujxn42endqb" path="res://button_quit.png" id="5_rj586"]
+[ext_resource type="Texture2D" uid="uid://cmprl7c10v6he" path="res://button_options_hover.png" id="6_4d7sh"]
+[ext_resource type="Texture2D" uid="uid://bmvk764bextck" path="res://button_credits.png" id="7_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://dqu7e7j5vtoc1" path="res://button_credits_hover.png" id="8_hqns4"]
+[ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("TextureRect/SubViewport")
@@ -66,22 +71,36 @@ offset_right = 1678.99
 offset_bottom = 32.0
 grow_vertical = 0
 scale = Vector2(0.46, 0.46)
+pivot_offset = Vector2(50, 0)
 
-[node name="Play" type="Button" parent="MainMenu/HBoxContainer"]
+[node name="TextureButton" type="TextureButton" parent="MainMenu/HBoxContainer"]
 layout_mode = 2
-icon = ExtResource("3_kdubu")
+texture_normal = ExtResource("3_kdubu")
+texture_pressed = ExtResource("4_q6r6c")
+texture_hover = ExtResource("4_q6r6c")
 
-[node name="Options" type="Button" parent="MainMenu/HBoxContainer"]
+[node name="TextureButton2" type="TextureButton" parent="MainMenu/HBoxContainer"]
 layout_mode = 2
-icon = ExtResource("4_d21ai")
+texture_normal = ExtResource("4_d21ai")
+texture_pressed = ExtResource("6_4d7sh")
+texture_hover = ExtResource("6_4d7sh")
 
-[node name="Credits" type="Button" parent="MainMenu/HBoxContainer"]
+[node name="TextureButton3" type="TextureButton" parent="MainMenu/HBoxContainer"]
 layout_mode = 2
-icon = ExtResource("4_d21ai")
+texture_normal = ExtResource("7_ir8iy")
+texture_pressed = ExtResource("8_hqns4")
+texture_hover = ExtResource("8_hqns4")
 
-[node name="Quit" type="Button" parent="MainMenu/HBoxContainer"]
+[node name="TextureButton4" type="TextureButton" parent="MainMenu/HBoxContainer"]
 layout_mode = 2
-icon = ExtResource("5_rj586")
+texture_normal = ExtResource("5_rj586")
+texture_pressed = ExtResource("10_hqns4")
+texture_hover = ExtResource("10_hqns4")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Panel" type="CenterContainer" parent="."]
 visible = false
