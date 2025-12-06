@@ -32,62 +32,92 @@ script/source = "extends VideoStreamPlayer
 
 # --- ASSIGN THESE IN THE INSPECTOR ---
 @export_group(\"Nodes\")
-# This must be a ColorRect (Color: Black) strictly BEHIND the Logo but IN FRONT of the Menu
 @export var fade_overlay: ColorRect        
 @export var intro_container: TextureRect   
-# Ensure this node is NOT a child of the VideoPlayer (make it a sibling)
-@export var best_game_logo: CanvasItem       
+@export var best_game_logo: CanvasItem        
 
 @export_group(\"Animation Settings\")
-@export var video_fade_out_duration: float = 0.5 
-@export var logo_hold_duration: float = 1.0  
-@export var logo_fade_out_duration: float = 1.0 
-@export var menu_reveal_duration: float = 2.0 
+@export var logo_fade_in_duration: float = 1.0   # How fast logo appears over video
+@export var logo_hold_duration: float = 1.0      # How long logo sits on black screen
+@export var logo_fade_out_duration: float = 1.0  # How fast logo disappears
+@export var menu_reveal_duration: float = 2.0    # How fast black screen fades to menu
+
+# Start showing the logo this many seconds before the video ends
+@export var transition_lead_time: float = 1.0 
+
+var _logo_fade_started: bool = false
+var _sequence_finished: bool = false
 
 func _ready():
 	finished.connect(_on_video_finished)
 	
-	# Setup: Ensure Overlay is Black and Visible immediately
-	# This hides the Main Menu behind the overlay until we are ready
+	# SETUP INITIAL STATES:
+	
+	# 1. Overlay: Visible and Black (Sitting BEHIND the video)
 	if fade_overlay:
 		fade_overlay.visible = true
 		fade_overlay.color = Color.BLACK
 		fade_overlay.modulate.a = 1.0 
 	
-	# Ensure Video and Logo are visible
+	# 2. Video: Fully Visible
 	modulate.a = 1.0
+	
+	# 3. Logo: INVISIBLE (Sitting ON TOP of the video)
 	if best_game_logo:
-		best_game_logo.modulate.a = 1.0
+		best_game_logo.modulate.a = 0.0 # Start invisible!
 
-func _on_video_finished():
-	if fade_overlay:
+func _process(_delta):
+	# Monitor time to trigger the Logo Fade In
+	if not is_playing() or _logo_fade_started:
+		return
+
+	var stream_len = get_stream_length()
+	if stream_len <= 0: return
+
+	var time_remaining = stream_len - get_stream_position()
+
+	# TRIGGER 1: Fade Logo IN (While video is still playing)
+	if time_remaining <= transition_lead_time:
+		_start_logo_appearance()
+
+func _start_logo_appearance():
+	_logo_fade_started = true
+	
+	if best_game_logo:
 		var tween = create_tween()
-		
-		# --- PHASE 1: FADE OUT VIDEO (Reveals Black Overlay behind it) ---
-		# We do NOT fade the logo yet. We only fade 'self' (the video).
-		tween.tween_property(self, \"modulate:a\", 0.0, video_fade_out_duration).set_trans(Tween.TRANS_SINE)
-		
-		# --- PHASE 2: HOLD (Logo stays visible on Black Screen) ---
-		tween.tween_interval(logo_hold_duration)
-		
-		# --- PHASE 3: FADE OUT LOGO ---
-		if best_game_logo:
-			tween.tween_property(best_game_logo, \"modulate:a\", 0.0, logo_fade_out_duration).set_trans(Tween.TRANS_SINE)
-		
-		# --- PHASE 4: REVEAL MENU (Fade out the Black Overlay) ---
+		# Fade Logo from Invisible (0) to Visible (1) ON TOP of the video
+		tween.tween_property(best_game_logo, \"modulate:a\", 1.0, logo_fade_in_duration).set_trans(Tween.TRANS_SINE)
+
+# TRIGGER 2: Video Ends -> Cut to Black -> Fade out Logo -> Fade out Overlay
+func _on_video_finished():
+	if _sequence_finished: return
+	_sequence_finished = true
+	
+	# 1. Instantly Hide the Video 
+	# (This reveals the Black Overlay underneath, but the Logo remains visible on top)
+	visible = false 
+	
+	var tween = create_tween()
+	
+	# 2. HOLD LOGO (It is now sitting on the Black Overlay)
+	tween.tween_interval(logo_hold_duration)
+	
+	# 3. FADE OUT LOGO (Revealing just the Black Overlay)
+	if best_game_logo:
+		tween.tween_property(best_game_logo, \"modulate:a\", 0.0, logo_fade_out_duration).set_trans(Tween.TRANS_SINE)
+	
+	# 4. FADE OUT OVERLAY (Revealing the Menu)
+	if fade_overlay:
 		tween.tween_property(fade_overlay, \"modulate:a\", 0.0, menu_reveal_duration).set_trans(Tween.TRANS_SINE)
-		
-		# --- PHASE 5: CLEANUP ---
-		tween.tween_callback(_cleanup_nodes)
+	
+	# 5. CLEANUP
+	tween.tween_callback(_cleanup_nodes)
 
 func _cleanup_nodes():
 	if intro_container:
 		intro_container.visible = false
-	
-	# Optional: Hide overlay to prevent it blocking mouse clicks on the menu
 	if fade_overlay:
 		fade_overlay.visible = false
-		
 	stop()
 "
 
@@ -302,10 +332,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
-position = Vector2(556.195, 288)
-texture = ExtResource("15_ta5nu")
-
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo")]
 anchors_preset = 15
 anchor_right = 1.0
@@ -319,3 +345,8 @@ script = SubResource("GDScript_d2bti")
 fade_overlay = NodePath("../FadeOverlay")
 intro_container = NodePath("../..")
 best_game_logo = NodePath("../BestGameProductionsLogo")
+transition_lead_time = 2.705
+
+[node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
+position = Vector2(556.195, 288)
+texture = ExtResource("15_ta5nu")
