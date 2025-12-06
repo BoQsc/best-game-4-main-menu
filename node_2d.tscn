@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
-viewport_path = NodePath("TextureRect/SubViewport")
+viewport_path = NodePath("MainMenuBackground/SubViewport")
 
 [sub_resource type="LabelSettings" id="LabelSettings_x0ka3"]
 font_size = 61
@@ -29,7 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="MainMenuBackground" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,10 +38,10 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_epypp")
 
-[node name="SubViewport" type="SubViewport" parent="TextureRect"]
+[node name="SubViewport" type="SubViewport" parent="MainMenuBackground"]
 size = Vector2i(1100, 500)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="TextureRect/SubViewport"]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="MainMenuBackground/SubViewport"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -52,7 +52,7 @@ autoplay = true
 expand = true
 loop = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TextureRect/SubViewport"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainMenuBackground/SubViewport"]
 stream = ExtResource("2_0e48y")
 autoplay = true
 
