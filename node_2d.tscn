@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://day3popjfdyvp"]
+[gd_scene load_steps=8 format=3 uid="uid://day3popjfdyvp"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
 [ext_resource type="Texture2D" uid="uid://daqabufuflaop" path="res://bestgame4 ui.png" id="3_epypp"]
+[ext_resource type="Texture2D" uid="uid://b452fe46xnsqn" path="res://button_play.png" id="3_kdubu"]
+[ext_resource type="Texture2D" uid="uid://cv5gqk76vuprl" path="res://button_options.png" id="4_d21ai"]
+[ext_resource type="Texture2D" uid="uid://crujxn42endqb" path="res://button_quit.png" id="5_rj586"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("TextureRect/SubViewport")
@@ -44,7 +47,44 @@ autoplay = true
 
 [node name="Node2D" type="Node2D" parent="TextureRect"]
 
+[node name="MainMenu" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 0.99
+offset_top = -98.0
+offset_right = 1678.99
+offset_bottom = 32.0
+grow_vertical = 0
+scale = Vector2(0.46, 0.46)
+
+[node name="Play" type="Button" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("3_kdubu")
+
+[node name="Options" type="Button" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("4_d21ai")
+
+[node name="Credits" type="Button" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("4_d21ai")
+
+[node name="Quit" type="Button" parent="MainMenu/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("5_rj586")
+
 [node name="Panel" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
