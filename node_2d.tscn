@@ -190,6 +190,6 @@ grow_vertical = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="MarginContainer"]
+[node name="License" type="Label" parent="MarginContainer"]
 layout_mode = 2
-text = "Limited Public Domain. No Copyright."
+text = "2026 Limited Public Domain. No Copyright"
