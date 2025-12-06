@@ -51,7 +51,7 @@ var _sequence_finished: bool = false
 
 func _ready():
 	if music_player:
-		music_player.play(45.0)
+		music_player.play(7.0)
 
 	finished.connect(_on_video_finished)
 	
