@@ -1,6 +1,5 @@
 [gd_scene load_steps=21 format=3 uid="uid://day3popjfdyvp"]
 
-[ext_resource type="VideoStream" uid="uid://omanirsks1kj" path="res://best_games_productions-1.ogv" id="1_d2bti"]
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
 [ext_resource type="Texture2D" uid="uid://daqabufuflaop" path="res://bestgame4 ui.png" id="3_epypp"]
@@ -16,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dqu7e7j5vtoc1" path="res://button_credits_hover.png" id="8_hqns4"]
 [ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
 [ext_resource type="Texture2D" uid="uid://cr4f34p0oa0f0" path="res://best_game_productions_logo.png" id="15_ta5nu"]
+[ext_resource type="VideoStream" uid="uid://djc4cgksqbyx6" path="res://best_games_productions_intro.ogv" id="16_ta5nu"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("MainMenuBackground/SubViewport")
@@ -31,66 +31,57 @@ resource_name = "BestGamesIntroVideoPlayer"
 script/source = "extends VideoStreamPlayer
 
 # --- ASSIGN THESE IN THE INSPECTOR ---
-@export var fade_overlay: ColorRect        # IntroVideo/SubViewport/ColorRect
-@export var intro_container: TextureRect   # IntroVideo
-@export var best_game_logo: Control        # IntroVideo/SubViewport/BestGameProductionsLogo
+@export var fade_overlay: ColorRect        # Drag 'FadeOverlay' here
+@export var intro_container: TextureRect   # Drag 'IntroContainer' here
+@export var best_game_logo: Control        # Drag 'BestGameProductionsLogo' here
 
 func _ready():
 	finished.connect(_on_video_finished)
 	
-	# Setup: Ensure Overlay is invisible
+	# SETUP:
+	# 1. The Overlay acts as the solid backing. It stays OPAQUE (1.0).
+	#    Since it is higher in the scene tree than the video, it hides BEHIND the video.
 	if fade_overlay:
-		fade_overlay.modulate.a = 0.0
+		fade_overlay.visible = true
+		fade_overlay.color = Color.BLACK
+		fade_overlay.modulate.a = 1.0 
 	
-	# Ensure Video and Logo are fully visible at start
+	# 2. Ensure Video and Logo are fully visible on top of the Overlay
 	modulate.a = 1.0
 	if best_game_logo:
 		best_game_logo.modulate.a = 1.0
 
 func _on_video_finished():
-	# Safety check: ensure we have the nodes needed to tween
 	if fade_overlay and intro_container:
 		var tween = create_tween()
 		
-		# --- PHASE 1: TRANSITION (Parallel) ---
+		# --- STEP 1: REVEAL THE BLACK OVERLAY ---
+		# We fade the Top Layers (Video & Logo) to 0.
+		# This creates a transparency fade into the node sitting behind them (The Overlay).
 		tween.set_parallel(true)
-		
-		# 1. Fade IN the Overlay (Cover the screen)
-		tween.tween_property(fade_overlay, \"modulate:a\", 1.0, 0.3)
-		
-		# 2. Fade OUT the Video Player
-		tween.tween_property(self, \"modulate:a\", 0.0, 0.3)
-		
-		# 3. Fade OUT the Logo (New Addition)
+		tween.tween_property(self, \"modulate:a\", 0.0, 0.3) # Video fades to transparent
 		if best_game_logo:
-			tween.tween_property(best_game_logo, \"modulate:a\", 0.0, 0.3)
+			tween.tween_property(best_game_logo, \"modulate:a\", 0.0, 0.3) # Logo fades to transparent
+		tween.set_parallel(false)
 		
-		# --- PHASE 2: SUSPENSE (Hold) ---
-		# Wait 2 seconds while the screen is covered by the overlay
-		tween.chain().tween_interval(2.0)
+		# --- STEP 2: HOLD ---
+		# Now the Video/Logo are invisible. We are looking at the FadeOverlay.
+		tween.tween_interval(0.3)
 		
-		# --- PHASE 3: REVEAL (Fade Out Overlay) ---
-		# Fade the overlay away to reveal the actual game/menu behind it
-		tween.chain().tween_property(fade_overlay, \"modulate:a\", 0.0, 4.0)
+		# --- STEP 3: REVEAL THE MENU ---
+		# Now we fade the Middle Layer (Overlay) to 0.
+		# This creates a transparency fade into the node sitting behind IT (The Main Menu).
+		tween.tween_property(fade_overlay, \"modulate:a\", 0.0, 1.3)
 		
-		# --- PHASE 4: CLEANUP ---
+		# --- STEP 4: CLEANUP ---
 		tween.tween_callback(_cleanup_nodes)
 
 func _cleanup_nodes():
-	# Turn off the Overlay
-	if fade_overlay:
-		fade_overlay.visible = false
-	
-	# Turn off the Logo
-	if best_game_logo:
-		best_game_logo.visible = false
-
-	# Turn off the Main Container
+	# Kill the visibility so clicks go through to the menu
 	if intro_container:
 		intro_container.visible = false
+		# Optional: intro_container.queue_free() # Use this to delete the intro entirely
 	
-	# Turn off the Player
-	visible = false
 	stop()
 "
 
@@ -294,6 +285,7 @@ grow_vertical = 2
 texture = SubResource("ViewportTexture_d2bti")
 
 [node name="SubViewport" type="SubViewport" parent="IntroVideo"]
+transparent_bg = true
 size = Vector2i(1100, 512)
 
 [node name="FadeOverlay" type="ColorRect" parent="IntroVideo/SubViewport"]
@@ -314,7 +306,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-stream = ExtResource("1_d2bti")
+stream = ExtResource("16_ta5nu")
 autoplay = true
 expand = true
 script = SubResource("GDScript_d2bti")
