@@ -64,6 +64,10 @@ func _ready():
 		fade_overlay.visible = false
 		fade_overlay.color = Color.BLACK
 		fade_overlay.modulate.a = 1.0 
+		fade_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	if intro_container:
+		intro_container.mouse_filter = Control.MOUSE_FILTER_IGNORE 
 	
 	# 2. Video: Fully Visible
 	modulate.a = 1.0
