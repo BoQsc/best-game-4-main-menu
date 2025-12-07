@@ -48,8 +48,6 @@ text = "Master Volume"
 layout_mode = 2
 value = 100.0
 
-[connection signal="value_changed" from="Panel/VBoxContainer/HSlider" to="." method="_on_master_volume_changed"]
-
 [node name="FullscreenCheck" type="CheckBox" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Fullscreen"
