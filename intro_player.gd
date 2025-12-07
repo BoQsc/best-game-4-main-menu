@@ -80,6 +80,13 @@ func _start_logo_appearance():
 # TRIGGER 2: Video Ends -> Cut to Black -> Fade out Logo -> Fade out Overlay
 func _on_video_finished():
 	if _sequence_finished: return
+	
+	# Sync music if skipping (video is still playing)
+	if is_playing() and music_player:
+		var stream_len = get_stream_length()
+		if stream_len > 0:
+			music_player.seek(11.0 + stream_len)
+
 	_sequence_finished = true
 	
 	# 1. Ensure Overlay is Visible (It sits BEHIND the video)
