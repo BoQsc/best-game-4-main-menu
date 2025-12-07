@@ -18,6 +18,7 @@ extends VideoStreamPlayer
 
 var _logo_fade_started: bool = false
 var _sequence_finished: bool = false
+var _was_mouse_pressed: bool = false
 
 func _ready():
 	if music_player:
@@ -40,14 +41,18 @@ func _ready():
 	if best_game_logo:
 		best_game_logo.modulate.a = 0.0 # Start invisible!
 
-func _input(event):
-	# Allow skipping with left mouse click or Enter/Space
-	if not _sequence_finished and is_playing():
-		if (event is InputEventMouseButton and event.pressed) or event.is_action_pressed("ui_accept"):
-			# Jump straight to the end sequence
-			_on_video_finished()
-
 func _process(_delta):
+	# Allow skipping with left mouse click or Enter/Space
+	# Using polling because SubViewports might not receive InputEvents automatically
+	if not _sequence_finished and is_playing():
+		var mouse_pressed = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+		var ui_accept = Input.is_action_just_pressed("ui_accept")
+		
+		if (mouse_pressed and not _was_mouse_pressed) or ui_accept:
+			_on_video_finished()
+		
+		_was_mouse_pressed = mouse_pressed
+
 	# Monitor time to trigger the Logo Fade In
 	if not is_playing() or _logo_fade_started:
 		return
