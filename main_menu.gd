@@ -4,6 +4,7 @@ extends Control
 
 # Preload the options menu scene
 var options_scene = preload("res://options_menu.tscn")
+var credits_scene = preload("res://credits_menu.tscn")
 
 # Define button paths
 @onready var steam_btn = $MainMenu/MarginContainer/TextureButton
@@ -19,6 +20,8 @@ func _ready():
 		play_btn.pressed.connect(_on_play_pressed)
 	if options_btn:
 		options_btn.pressed.connect(_on_options_pressed)
+	if credits_btn:
+		credits_btn.pressed.connect(_on_credits_pressed)
 	if quit_btn:
 		quit_btn.pressed.connect(_on_quit_pressed)
 	
@@ -47,6 +50,20 @@ func _on_options_pressed():
 	main_menu_container.visible = false
 
 func _on_options_closed():
+	# Show the main menu again
+	main_menu_container.visible = true
+
+func _on_credits_pressed():
+	var credits_instance = credits_scene.instantiate()
+	add_child(credits_instance)
+	
+	# Listen for when the back button is pressed in the credits menu
+	credits_instance.back_pressed.connect(_on_credits_closed)
+	
+	# Hide the main menu while credits are open
+	main_menu_container.visible = false
+
+func _on_credits_closed():
 	# Show the main menu again
 	main_menu_container.visible = true
 
