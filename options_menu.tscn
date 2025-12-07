@@ -48,13 +48,21 @@ text = "Master Volume"
 layout_mode = 2
 value = 100.0
 
+[connection signal="value_changed" from="Panel/VBoxContainer/HSlider" to="." method="_on_master_volume_changed"]
+
 [node name="FullscreenCheck" type="CheckBox" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Fullscreen"
+
+[node name="QualityButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Quality: High"
 
 [node name="BackButton" type="Button" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Back"
 
+[connection signal="value_changed" from="Panel/VBoxContainer/HSlider" to="." method="_on_master_volume_changed"]
 [connection signal="toggled" from="Panel/VBoxContainer/FullscreenCheck" to="." method="_on_fullscreen_toggled"]
+[connection signal="pressed" from="Panel/VBoxContainer/QualityButton" to="." method="_on_quality_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
