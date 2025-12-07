@@ -43,7 +43,7 @@ horizontal_alignment = 1
 [node name="CreditsText" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
 text = "Game Design: The Team
-Programming: The Team
+Programming: BoQsc
 Art: The Team
 Music: under-the-bleak-sky"
 horizontal_alignment = 1
