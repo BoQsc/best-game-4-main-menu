@@ -82,10 +82,14 @@ func _on_video_finished():
 	if _sequence_finished: return
 	
 	# Sync music if skipping (video is still playing)
-	if is_playing() and music_player:
-		var stream_len = get_stream_length()
-		if stream_len > 0:
-			music_player.seek(11.0 + stream_len)
+	if is_playing():
+		# Kill video audio immediately
+		volume_db = -80.0
+		
+		if music_player:
+			var stream_len = get_stream_length()
+			if stream_len > 0:
+				music_player.seek(11.0 + stream_len)
 
 	_sequence_finished = true
 	
