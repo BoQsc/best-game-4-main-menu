@@ -7,7 +7,7 @@ var options_scene = preload("res://options_menu.tscn")
 var credits_scene = preload("res://credits_menu.tscn")
 
 # Define button paths
-@onready var steam_btn = $MainMenu/MarginContainer/TextureButton
+@onready var steam_btn = $MainMenu/MarginContainer/SteamButton
 @onready var play_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer/TextureButton
 @onready var options_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer2/TextureButton2
 @onready var credits_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer3/TextureButton3
@@ -16,6 +16,8 @@ var credits_scene = preload("res://credits_menu.tscn")
 
 func _ready():
 	# Connect buttons to their specific functions
+	if steam_btn:
+		steam_btn.pressed.connect(_on_steam_pressed)
 	if play_btn:
 		play_btn.pressed.connect(_on_play_pressed)
 	if options_btn:
@@ -34,6 +36,9 @@ func _ready():
 func _play_click_sound():
 	if click_sound:
 		click_sound.play()
+
+func _on_steam_pressed():
+	OS.shell_open("https://steamcommunity.com/id/boqsc/")
 
 func _on_play_pressed():
 	print("Play pressed! - Add scene change logic here")
