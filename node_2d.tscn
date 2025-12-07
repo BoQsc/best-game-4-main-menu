@@ -196,7 +196,7 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 
-[node name="TextureButton" type="TextureButton" parent="MainMenu/MarginContainer"]
+[node name="SteamButton" type="TextureButton" parent="MainMenu/MarginContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_nr8wp")
 texture_pressed = ExtResource("4_d2bti")
