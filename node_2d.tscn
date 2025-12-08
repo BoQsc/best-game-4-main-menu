@@ -11,9 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://djtaocrtjg8wf" path="res://button_play_hover.png" id="4_q6r6c"]
 [ext_resource type="Texture2D" uid="uid://crujxn42endqb" path="res://button_quit.png" id="5_rj586"]
 [ext_resource type="Texture2D" uid="uid://cmprl7c10v6he" path="res://button_options_hover.png" id="6_4d7sh"]
-[ext_resource type="Texture2D" uid="uid://bpcypoonor3s3" path="res://donate_button_big.png" id="6_7vxoj"]
-[ext_resource type="Texture2D" uid="uid://dpea62r5su20v" path="res://donate_button_hover.png" id="7_ei405"]
+[ext_resource type="Texture2D" uid="uid://b5owrjd7eartu" path="res://donate_button.png" id="6_7vxoj"]
 [ext_resource type="Texture2D" uid="uid://bmvk764bextck" path="res://button_credits.png" id="7_ir8iy"]
+[ext_resource type="Texture2D" uid="uid://dk6ew5h1abt4i" path="res://donate_button_nohalo.png" id="8_7vxoj"]
 [ext_resource type="Texture2D" uid="uid://dqu7e7j5vtoc1" path="res://button_credits_hover.png" id="8_hqns4"]
 [ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
 [ext_resource type="Texture2D" uid="uid://cr4f34p0oa0f0" path="res://best_game_productions_logo.png" id="15_ta5nu"]
@@ -130,10 +130,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = -350.334
-offset_top = 112.0
-offset_right = 291.666
-offset_bottom = 488.4801
+offset_left = -100.0
+offset_top = 212.0
+offset_right = 382.0
+offset_bottom = 375.00024
 grow_vertical = 0
 scale = Vector2(0.61, 0.61)
 theme_override_constants/margin_left = 25
@@ -144,8 +144,8 @@ theme_override_constants/margin_bottom = 15
 [node name="DonateButton" type="TextureButton" parent="MainMenu/TextureButton5/MarginContainer2"]
 layout_mode = 2
 texture_normal = ExtResource("6_7vxoj")
-texture_pressed = ExtResource("7_ei405")
-texture_hover = ExtResource("7_ei405")
+texture_pressed = ExtResource("8_7vxoj")
+texture_hover = ExtResource("8_7vxoj")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/TextureButton5"]
 layout_mode = 1
