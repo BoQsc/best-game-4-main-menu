@@ -13,6 +13,7 @@ var credits_scene = preload("res://credits_menu.tscn")
 @onready var credits_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer3/TextureButton3
 @onready var quit_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer4/TextureButton4
 @onready var main_menu_container = $MainMenu
+@onready var donate_btn = $MainMenu/TextureButton5/MarginContainer2/DonateButton
 
 func _ready():
 	# Connect buttons to their specific functions
@@ -26,9 +27,11 @@ func _ready():
 		credits_btn.pressed.connect(_on_credits_pressed)
 	if quit_btn:
 		quit_btn.pressed.connect(_on_quit_pressed)
+	if donate_btn:
+		donate_btn.pressed.connect(_on_donate_pressed)
 	
 	# Connect all buttons to sound effect
-	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn]
+	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn]
 	for btn in buttons:
 		if btn:
 			btn.pressed.connect(_play_click_sound)
@@ -39,6 +42,9 @@ func _play_click_sound():
 
 func _on_steam_pressed():
 	OS.shell_open("https://steamcommunity.com/id/boqsc/")
+
+func _on_donate_pressed():
+	OS.shell_open("https://opencollective.com/boqsc")
 
 func _on_play_pressed():
 	print("Play pressed! - Add scene change logic here")
