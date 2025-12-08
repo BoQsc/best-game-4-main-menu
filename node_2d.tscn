@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dmuoprrg3jyef"]
+[gd_scene load_steps=26 format=3 uid="uid://dmuoprrg3jyef"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
@@ -27,6 +27,9 @@ viewport_path = NodePath("MainMenuBackground/SubViewport")
 
 [sub_resource type="LabelSettings" id="LabelSettings_x0ka3"]
 font_size = 61
+
+[sub_resource type="LabelSettings" id="LabelSettings_7vxoj"]
+font_size = 32
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_d2bti"]
 viewport_path = NodePath("IntroVideo/SubViewport")
@@ -146,6 +149,24 @@ layout_mode = 2
 texture_normal = ExtResource("6_7vxoj")
 texture_pressed = ExtResource("8_7vxoj")
 texture_hover = ExtResource("8_7vxoj")
+
+[node name="Label" type="Label" parent="MainMenu/TextureButton5/MarginContainer2/DonateButton"]
+layout_mode = 0
+offset_left = 473.427
+offset_top = 51.23616
+offset_right = 987.30396
+offset_bottom = 480.23615
+size_flags_horizontal = 8
+text = "Multiplayer Support
+GDExtension C++ Research
+Performance and Maintenance
+Content, 3D Models, Art
+Living support
+Development Hardware.
+Tools, Future outlooks
+Community support
+"
+label_settings = SubResource("LabelSettings_7vxoj")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/TextureButton5"]
 layout_mode = 1
