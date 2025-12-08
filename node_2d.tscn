@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dmuoprrg3jyef"]
+[gd_scene load_steps=29 format=3 uid="uid://dmuoprrg3jyef"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
@@ -15,6 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://bmvk764bextck" path="res://button_credits.png" id="7_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://dk6ew5h1abt4i" path="res://donate_button_nohalo.png" id="8_7vxoj"]
 [ext_resource type="Texture2D" uid="uid://dqu7e7j5vtoc1" path="res://button_credits_hover.png" id="8_hqns4"]
+[ext_resource type="Texture2D" uid="uid://c2n8spnbrlawb" path="res://discord_button_.png" id="9_e8dv2"]
+[ext_resource type="Texture2D" uid="uid://dveamfun1l1gy" path="res://discord_button_hover.png" id="10_2nhjh"]
 [ext_resource type="Texture2D" uid="uid://6qo8stp380d5" path="res://button_quit_hover.png" id="10_hqns4"]
 [ext_resource type="Texture2D" uid="uid://cr4f34p0oa0f0" path="res://best_game_productions_logo.png" id="15_ta5nu"]
 [ext_resource type="VideoStream" uid="uid://djc4cgksqbyx6" path="res://best_games_productions_intro.ogv" id="16_ta5nu"]
@@ -30,6 +32,9 @@ font_size = 61
 
 [sub_resource type="LabelSettings" id="LabelSettings_7vxoj"]
 font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_e8dv2"]
+font_size = 150
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_d2bti"]
 viewport_path = NodePath("IntroVideo/SubViewport")
@@ -129,6 +134,7 @@ text = "0.0.0.0"
 label_settings = SubResource("LabelSettings_x0ka3")
 
 [node name="MarginContainer2" type="MarginContainer" parent="MainMenu/TextureButton5"]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -165,8 +171,44 @@ Living support
 Development Hardware.
 Tools, Future outlooks
 Community support
+GDScript Modding support (Modlets, Mods, Plugins)
 "
 label_settings = SubResource("LabelSettings_7vxoj")
+
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/TextureButton5"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -559.1464
+offset_top = 474.6869
+offset_right = 1496.8535
+offset_bottom = 1061.6871
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.135, 0.135)
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
+
+[node name="DiscordButton" type="TextureButton" parent="MainMenu/TextureButton5/MarginContainer3"]
+layout_mode = 2
+texture_normal = ExtResource("9_e8dv2")
+texture_pressed = ExtResource("10_2nhjh")
+texture_hover = ExtResource("10_2nhjh")
+
+[node name="Label" type="Label" parent="MainMenu/TextureButton5/MarginContainer3/DiscordButton"]
+layout_mode = 0
+offset_left = 2122.4001
+offset_top = 82.269135
+offset_right = 3586.4001
+offset_bottom = 622.26917
+text = "Community
+Ideas & Chat"
+label_settings = SubResource("LabelSettings_e8dv2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/TextureButton5"]
 layout_mode = 1
