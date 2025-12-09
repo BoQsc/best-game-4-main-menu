@@ -20,6 +20,7 @@ var _logo_fade_started: bool = false
 var _sequence_finished: bool = false
 var _was_mouse_pressed: bool = false
 var _logo_fade_tween: Tween = null  # Store tween so we can kill it when skipping
+var _main_tween: Tween = null  # Store main animation tween
 
 func _ready():
 	if GameData.skip_intro:
@@ -86,8 +87,11 @@ func _start_logo_appearance():
 func _on_video_finished():
 	if _sequence_finished: return
 	
-	# Sync music if skipping (video is still playing)
-	if is_playing():
+	# Check if we're SKIPPING (video still playing) or video ended naturally
+	var is_skipping = is_playing()
+	
+	# Sync music if skipping
+	if is_skipping:
 		# Kill video audio immediately
 		volume_db = -80.0
 		
@@ -95,52 +99,69 @@ func _on_video_finished():
 			var stream_len = get_stream_length()
 			if stream_len > 0:
 				music_player.seek(11.0 + stream_len)
+		
+		# IMPORTANT: Disconnect the finished signal to prevent it firing later
+		if finished.is_connected(_on_video_finished):
+			finished.disconnect(_on_video_finished)
 
 	_sequence_finished = true
+	
+	# Kill any running fade-in tween
+	if _logo_fade_tween and _logo_fade_tween.is_valid():
+		_logo_fade_tween.kill()
+	
+	# === NATURAL END: Run the full animation sequence ===
 	
 	# 1. Ensure Overlay is Visible (It sits BEHIND the video)
 	if fade_overlay:
 		fade_overlay.visible = true
 	
-	# 2. Smoothly Hide the Video (Use modulate instead of visible to avoid blinking)
-	# This reveals the Black Overlay underneath, but the Logo remains visible on top
+	# 2. Smoothly Hide the Video
 	modulate.a = 0.0
 	
-	# FAILSAFE: If video ended before logo started fading in (e.g. video too short),
-	# force start the sequence so we don't get stuck in a weird state.
+	# FAILSAFE: If video ended before logo started fading in
 	if not _logo_fade_started:
 		if best_game_logo:
-			best_game_logo.modulate.a = 1.0 # Force visible immediately
+			best_game_logo.modulate.a = 1.0
 	else:
-		# If logo fade WAS started, kill the tween and force logo to full visibility
-		if _logo_fade_tween and _logo_fade_tween.is_valid():
-			_logo_fade_tween.kill()
 		if best_game_logo:
 			best_game_logo.modulate.a = 1.0
 	
-	var tween = create_tween()
+	_main_tween = create_tween()
 	
-	# 3. HOLD LOGO (It is now sitting on the Black Overlay)
-	tween.tween_interval(logo_hold_duration)
+	# 3. HOLD LOGO
+	_main_tween.tween_interval(logo_hold_duration)
 	
-	# 4. FADE OUT LOGO (Revealing just the Black Overlay)
+	# 4. FADE OUT LOGO
 	if best_game_logo:
-		tween.tween_property(best_game_logo, "modulate:a", 0.0, logo_fade_out_duration).set_trans(Tween.TRANS_SINE)
+		_main_tween.tween_property(best_game_logo, "modulate:a", 0.0, logo_fade_out_duration).set_trans(Tween.TRANS_SINE)
+		# CRITICAL: Hide logo immediately after fade to prevent any reappearance
+		_main_tween.tween_callback(func(): best_game_logo.visible = false)
 	
-	# Allow clicking through just before the fade starts
-	tween.tween_callback(func(): 
+	# Allow clicking through
+	_main_tween.tween_callback(func(): 
 		if fade_overlay: fade_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		if intro_container: intro_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	)
 	
-	# 5. FADE OUT OVERLAY (Revealing the Menu)
+	# 5. FADE OUT OVERLAY
 	if fade_overlay:
-		tween.tween_property(fade_overlay, "modulate:a", 0.0, menu_reveal_duration).set_trans(Tween.TRANS_SINE)
+		_main_tween.tween_property(fade_overlay, "modulate:a", 0.0, menu_reveal_duration).set_trans(Tween.TRANS_SINE)
 	
 	# 6. CLEANUP
-	tween.tween_callback(_cleanup_nodes)
+	_main_tween.tween_callback(_cleanup_nodes)
 
 func _cleanup_nodes():
+	# Kill any running tweens first
+	if _main_tween and _main_tween.is_valid():
+		_main_tween.kill()
+	if _logo_fade_tween and _logo_fade_tween.is_valid():
+		_logo_fade_tween.kill()
+	
+	# Force logo to be fully invisible
+	if best_game_logo:
+		best_game_logo.modulate.a = 0.0
+		best_game_logo.visible = false
 	if intro_container:
 		intro_container.visible = false
 	if fade_overlay:
