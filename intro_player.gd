@@ -21,6 +21,10 @@ var _sequence_finished: bool = false
 var _was_mouse_pressed: bool = false
 
 func _ready():
+	if GameData.skip_intro:
+		_cleanup_nodes()
+		return
+
 	if music_player:
 		music_player.play(11.0)
 

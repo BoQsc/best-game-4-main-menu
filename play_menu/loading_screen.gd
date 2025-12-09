@@ -35,6 +35,7 @@ func _process(_delta):
 
 func _on_back_pressed():
 	# Return to main menu (assuming node_2d.tscn is main menu)
+	GameData.skip_intro = true
 	get_tree().change_scene_to_file("res://node_2d.tscn")
 
 func _on_load_complete():

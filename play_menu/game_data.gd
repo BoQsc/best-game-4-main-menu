@@ -5,6 +5,7 @@ signal game_saved
 signal game_loaded
 
 const SAVE_DIR = "user://saves/"
+var skip_intro: bool = false
 
 func _ready():
 	DirAccess.make_dir_absolute(SAVE_DIR)
