@@ -17,6 +17,11 @@ var credits_scene = preload("res://credits_menu.tscn")
 @onready var discord_btn = $MainMenu/TextureButton5/MarginContainer3/DiscordButton
 
 func _ready():
+	# Set custom mouse cursor
+	var cursor_texture = load("res://main_menu_mouse_cursor.png")
+	if cursor_texture:
+		Input.set_custom_mouse_cursor(cursor_texture)
+		
 	# Connect buttons to their specific functions
 	if steam_btn:
 		steam_btn.pressed.connect(_on_steam_pressed)
