@@ -17,10 +17,16 @@ var credits_scene = preload("res://credits_menu.tscn")
 @onready var discord_btn = $MainMenu/TextureButton5/MarginContainer3/DiscordButton
 
 func _ready():
-	# Set custom mouse cursor
+	# Set custom mouse cursor (scaled down by 85% -> 0.15 size)
 	var cursor_texture = load("res://main_menu_mouse_cursor.png")
 	if cursor_texture:
-		Input.set_custom_mouse_cursor(cursor_texture)
+		var image = cursor_texture.get_image()
+		var new_size = Vector2(image.get_width(), image.get_height()) * 0.20
+		image.resize(int(new_size.x), int(new_size.y))
+		var scaled_texture = ImageTexture.create_from_image(image)
+		
+		# Set cursor with hotspot at top-left (default)
+		Input.set_custom_mouse_cursor(scaled_texture)
 		
 	# Connect buttons to their specific functions
 	if steam_btn:
