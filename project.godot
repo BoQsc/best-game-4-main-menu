@@ -14,3 +14,7 @@ config/name="Best Game 4 Main Menu"
 run/main_scene="uid://dmuoprrg3jyef"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://d2jep5xlc8eg2"
+
+[display]
+
+window/size/mode=3
