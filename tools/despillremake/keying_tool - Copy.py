@@ -144,6 +144,101 @@ def run_chromakey(img, key_lab, lower, upper, shadows, highlights, invert, mask_
                 new_pixels[x, y] = (r_int, g_int, b_int, new_a)
     return new_img
 
+def run_alpha_extract(img, key_color_hex, bg_brightness, edge_softness, app_ref=None, job_id=None):
+    """
+    Extract alpha from green/blue screen by analyzing how much the key channel is darkened.
+    Semi-transparent elements (shadows, smoke) darken the green proportionally to their opacity.
+    
+    Algorithm:
+    - For green screen: alpha = 1.0 - (green_value / expected_green)
+    - expected_green = bg_brightness (the brightness of pure green screen areas)
+    - Foreground RGB is estimated by removing the green screen contribution
+    """
+    width, height = img.size
+    pixels = img.load()
+    new_img = Image.new("RGBA", (width, height))
+    new_pixels = new_img.load()
+    
+    # Parse key color to determine which channel to use
+    k_rgb = ImageColor.getrgb(key_color_hex)
+    # Determine if green or blue screen based on which channel is dominant
+    is_green = k_rgb[1] >= k_rgb[2]
+    
+    # bg_brightness is the expected value of the key channel in pure BG areas (0-255)
+    bg_val = bg_brightness / 255.0
+    if bg_val < 0.01:
+        bg_val = 0.01  # Prevent division by zero
+    
+    edge_factor = edge_softness / 100.0  # 0.0 = hard edge, 1.0 = soft edge
+    
+    for x in range(width):
+        if app_ref and app_ref.current_job_id != job_id:
+            return None
+        for y in range(height):
+            r_int, g_int, b_int, a_int = pixels[x, y]
+            r, g, b = r_int / 255.0, g_int / 255.0, b_int / 255.0
+            
+            # Get the key channel value
+            if is_green:
+                key_channel = g
+                other1, other2 = r, b
+            else:
+                key_channel = b
+                other1, other2 = r, g
+            
+            # Calculate alpha based on how much the key channel differs from expected
+            # A pure green pixel (0, 255, 0) on green screen has alpha = 0
+            # A 50% shadow (0, 127, 0) has alpha ≈ 0.5
+            # A solid object with low green has alpha = 1.0
+            
+            # FIXED: Only apply alpha extraction if green is DOMINANT (higher than both R and B)
+            # This prevents treating natural colors (skin, red objects) as green screen
+            max_other = max(other1, other2)
+            
+            # Pixel is "green screen" if green is higher than both R and B
+            if key_channel > max_other + 0.05 and key_channel > 0.1:
+                # This is likely BG or semi-transparent overlay on green
+                # Alpha = 1 - (key_channel / bg_brightness)
+                raw_alpha = 1.0 - (key_channel / bg_val)
+                
+                # Apply edge softness
+                if edge_factor > 0 and raw_alpha > 0 and raw_alpha < 1:
+                    raw_alpha = raw_alpha ** (1.0 / (1.0 + edge_factor))
+                
+                # Clamp alpha
+                if raw_alpha < 0:
+                    raw_alpha = 0.0
+                elif raw_alpha > 1:
+                    raw_alpha = 1.0
+                
+                # Estimate foreground color - FIXED: don't divide R/B by alpha
+                if raw_alpha > 0.01:
+                    bg_contribution = (1.0 - raw_alpha) * bg_val
+                    if is_green:
+                        fg_g = max(0, min(1, (g - bg_contribution) / raw_alpha)) if raw_alpha > 0 else 0
+                        fg_r = r  # Keep R as-is
+                        fg_b = b  # Keep B as-is
+                    else:
+                        fg_b = max(0, min(1, (b - bg_contribution) / raw_alpha)) if raw_alpha > 0 else 0
+                        fg_r = r
+                        fg_g = g
+                else:
+                    fg_r, fg_g, fg_b = 0, 0, 0
+                
+                final_alpha = int(raw_alpha * (a_int / 255.0) * 255)
+                
+                new_pixels[x, y] = (
+                    int(fg_r * 255),
+                    int(fg_g * 255),
+                    int(fg_b * 255),
+                    final_alpha
+                )
+            else:
+                # Non-green-dominant pixel = solid foreground, keep as-is
+                new_pixels[x, y] = (r_int, g_int, b_int, a_int)
+    
+    return new_img
+
 # ==========================================
 # PART 3: GUI APPLICATION
 # ==========================================
@@ -151,7 +246,8 @@ def run_chromakey(img, key_lab, lower, upper, shadows, highlights, invert, mask_
 class KeyingApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Python Keying Tool v13 (View Modes)")
+        self.root.title("Python Keying Tool v14 (Alpha Extract)")
+
         self.root.geometry("1100x900")
 
         self.ui_ready = False 
@@ -237,8 +333,13 @@ class KeyingApp:
 
         self.var_apply_despill = tk.BooleanVar(value=False) 
         chk_ds = tk.Checkbutton(frm_ck, text="Auto-Apply Despill", variable=self.var_apply_despill, command=self.trigger_update, font=("Arial", 10, "bold"), bg="#ffffe0", relief="solid", bd=1)
-        chk_ds.pack(fill=tk.X, pady=(0, 15), ipady=3)
-        ttk.Label(frm_ck, text="(Uses settings from Despill tab)", font=("Arial", 8)).pack(anchor=tk.W, pady=(0,10))
+        chk_ds.pack(fill=tk.X, pady=(0, 5), ipady=3)
+        
+        self.var_apply_alpha = tk.BooleanVar(value=False)
+        chk_ae = tk.Checkbutton(frm_ck, text="Auto-Apply Alpha Extract", variable=self.var_apply_alpha, command=self.trigger_update, font=("Arial", 10, "bold"), bg="#e0e0ff", relief="solid", bd=1)
+        chk_ae.pack(fill=tk.X, pady=(0, 15), ipady=3)
+        ttk.Label(frm_ck, text="(Uses settings from respective tabs)", font=("Arial", 8)).pack(anchor=tk.W, pady=(0,10))
+
 
         def make_slider(parent, label, min_v, max_v, default, var):
             lbl = ttk.Label(parent, text=f"{label}: {default}")
@@ -265,7 +366,34 @@ class KeyingApp:
         self.var_ck_maskonly = tk.BooleanVar(value=False)
         ttk.Checkbutton(frm_ck, text="Show Mask Only", variable=self.var_ck_maskonly, command=self.trigger_update).pack(anchor=tk.W)
 
+        # --- ALPHA EXTRACT TAB (NEW) ---
+        self.tab_alpha = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab_alpha, text='Alpha Extract')
+        frm_ae = tk.Frame(self.tab_alpha, pady=10)
+        frm_ae.pack(fill=tk.X)
+        
+        ttk.Label(frm_ae, text="Extract semi-transparent shadows/smoke", font=("Arial", 9, "italic")).pack(anchor=tk.W, pady=(0, 10))
+        
+        self.var_ae_enabled = tk.BooleanVar(value=False)
+        tk.Checkbutton(frm_ae, text="Enable Alpha Extraction", variable=self.var_ae_enabled, command=self.trigger_update, font=("Arial", 11, "bold"), fg="purple").pack(anchor=tk.W, pady=(0, 10))
+        
+        # BG Brightness
+        ttk.Label(frm_ae, text="Background Brightness (0-255):").pack(anchor=tk.W, pady=(10, 0))
+        ttk.Label(frm_ae, text="(Sample pure green screen area)", font=("Arial", 8)).pack(anchor=tk.W)
+        self.var_ae_brightness = tk.IntVar(value=255)
+        self.scale_ae_bright = tk.Scale(frm_ae, from_=1, to=255, variable=self.var_ae_brightness, orient=tk.HORIZONTAL, command=lambda v: self.trigger_update())
+        self.scale_ae_bright.pack(fill=tk.X)
+        
+        # Edge Softness
+        ttk.Label(frm_ae, text="Edge Softness:").pack(anchor=tk.W, pady=(15, 0))
+        self.var_ae_softness = tk.DoubleVar(value=50.0)
+        tk.Scale(frm_ae, from_=0, to=100, variable=self.var_ae_softness, orient=tk.HORIZONTAL, command=lambda v: self.trigger_update()).pack(fill=tk.X)
+        
+        ttk.Separator(frm_ae, orient='horizontal').pack(fill='x', pady=15)
+        ttk.Label(frm_ae, text="Tip: Works best with clean green screen\nand uniform lighting.", font=("Arial", 8), foreground="gray").pack(anchor=tk.W)
+
         self.notebook.add(self.tab_despill, text='Despill Settings')
+
         frm_ds = tk.Frame(self.tab_despill, pady=10)
         frm_ds.pack(fill=tk.X)
         ttk.Label(frm_ds, text="Spill Color:").pack(anchor=tk.W)
@@ -498,7 +626,13 @@ class KeyingApp:
 
     def on_tab_change(self, event):
         tab_id = self.notebook.index(self.notebook.select())
-        self.current_mode = "Chroma" if tab_id == 0 else "Despill"
+        if tab_id == 0:
+            self.current_mode = "Chroma"
+        elif tab_id == 1:
+            self.current_mode = "AlphaExtract"
+        else:
+            self.current_mode = "Despill"
+
         self.trigger_update()
 
     def get_params(self):
@@ -515,8 +649,15 @@ class KeyingApp:
             'ck_shadow': self.var_ck_shadow.get(),
             'ck_highlight': self.var_ck_high.get(),
             'ck_invert': self.var_ck_invert.get(),
-            'ck_maskonly': self.var_ck_maskonly.get()
+            'ck_maskonly': self.var_ck_maskonly.get(),
+            # Alpha Extract params
+            'ae_enabled': self.var_ae_enabled.get(),
+            'ae_brightness': self.var_ae_brightness.get(),
+            'ae_softness': self.var_ae_softness.get(),
+            'apply_alpha': self.var_apply_alpha.get()
         }
+
+
 
     def process_logic(self, img_obj, params, job_id):
         monitor = self if job_id != -1 else None
@@ -533,11 +674,30 @@ class KeyingApp:
                 )
                 if img_obj is None: return None
             
+            if params['apply_alpha'] and not params['ck_maskonly']:
+                img_obj = run_alpha_extract(
+                    img_obj, params['ck_color'],
+                    params['ae_brightness'], params['ae_softness'],
+                    app_ref=monitor, job_id=job_id
+                )
+                if img_obj is None: return None
+            
             if params['apply_despill'] and not params['ck_maskonly']:
                 img_obj = run_despill(
                     img_obj, params['ds_color'], params['ds_method'], params['ds_luma'],
                     app_ref=monitor, job_id=job_id
                 )
+
+        
+        elif params['mode'] == 'AlphaExtract':
+            if params['ae_enabled']:
+                img_obj = run_alpha_extract(
+                    img_obj, params['ck_color'],
+                    params['ae_brightness'], params['ae_softness'],
+                    app_ref=monitor, job_id=job_id
+                )
+                if img_obj is None:
+                    return None
         
         elif params['mode'] == 'Despill':
             img_obj = run_despill(
