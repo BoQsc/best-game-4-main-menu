@@ -418,6 +418,8 @@ class KeyingApp:
         self.canvas.bind("<Button-1>", self.on_canvas_click) 
         self.canvas.bind("<B1-Motion>", self.on_canvas_drag) 
         self.canvas.bind("<ButtonRelease-1>", self.on_canvas_release) 
+        self.canvas.bind("<Motion>", self.on_canvas_motion)  # Track mouse for eraser cursor
+
         self.canvas.bind("<ButtonPress-2>", self.on_pan_start)
         self.canvas.bind("<B2-Motion>", self.on_pan_move)
         self.canvas.bind("<MouseWheel>", self.on_zoom)   
@@ -475,6 +477,9 @@ class KeyingApp:
         self.canvas.config(cursor="arrow")
         self.btn_pick_screen.config(relief="raised", bg="SystemButtonFace")
         self.btn_eraser.config(relief="raised", bg="SystemButtonFace")
+        # Hide eraser cursor circle
+        self.canvas.delete("eraser_cursor")
+
 
     def activate_picker(self):
         if not self.preview_image: return
@@ -537,10 +542,35 @@ class KeyingApp:
             coords = self.get_image_coords(event.x, event.y)
             if coords:
                 self.apply_eraser(coords[0], coords[1])
+            # Update eraser cursor position during drag
+            self.update_eraser_cursor(event.x, event.y)
 
     def on_canvas_release(self, event):
         if self.erasing_mode:
             self.trigger_update()
+
+    def on_canvas_motion(self, event):
+        """Track mouse movement for eraser cursor visualization"""
+        if self.erasing_mode:
+            self.update_eraser_cursor(event.x, event.y)
+        else:
+            # Not in erasing mode, hide cursor
+            self.canvas.delete("eraser_cursor")
+
+    def update_eraser_cursor(self, x, y):
+        """Draw/update the eraser cursor circle at mouse position"""
+        size = self.var_eraser_size.get() * self.zoom_scale
+        cx = self.canvas.canvasx(x)
+        cy = self.canvas.canvasy(y)
+        
+        # Delete old cursor and draw new one
+        self.canvas.delete("eraser_cursor")
+        self.canvas.create_oval(
+            cx - size/2, cy - size/2,
+            cx + size/2, cy + size/2,
+            outline="red", width=2, tags="eraser_cursor"
+        )
+
 
     def apply_eraser(self, x, y):
         size = self.var_eraser_size.get()
