@@ -1,0 +1,137 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8yq7qf6nkegv"]
+
+[ext_resource type="Script" path="res://play_menu/save_slot_menu.gd" id="1_save_menu"]
+[ext_resource type="Script" path="res://play_menu/slot_item.gd" id="2_slot_item"]
+
+[node name="SaveSlotMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_save_menu")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -46.0
+offset_top = 20.0
+offset_right = 46.0
+offset_bottom = 43.0
+grow_horizontal = 2
+text = "Select Save Slot"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Slot1" type="PanelContainer" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+script = ExtResource("2_slot_item")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/Slot1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Slot1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Slot 1"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="Panel/VBoxContainer/Slot1/HBoxContainer"]
+layout_mode = 2
+text = "Load/New"
+
+[node name="DeleteButton" type="Button" parent="Panel/VBoxContainer/Slot1/HBoxContainer"]
+layout_mode = 2
+text = "Delete"
+
+[node name="Slot2" type="PanelContainer" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+script = ExtResource("2_slot_item")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/Slot2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Slot2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Slot 2"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="Panel/VBoxContainer/Slot2/HBoxContainer"]
+layout_mode = 2
+text = "Load/New"
+
+[node name="DeleteButton" type="Button" parent="Panel/VBoxContainer/Slot2/HBoxContainer"]
+layout_mode = 2
+text = "Delete"
+
+[node name="Slot3" type="PanelContainer" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+script = ExtResource("2_slot_item")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/Slot3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Slot3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Slot 3"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="Panel/VBoxContainer/Slot3/HBoxContainer"]
+layout_mode = 2
+text = "Load/New"
+
+[node name="DeleteButton" type="Button" parent="Panel/VBoxContainer/Slot3/HBoxContainer"]
+layout_mode = 2
+text = "Delete"
+
+[node name="BackButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0
+offset_right = 50.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"
+
+[connection signal="pressed" from="Panel/BackButton" to="." method="_on_back_pressed"]

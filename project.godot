@@ -8,6 +8,10 @@
 
 config_version=5
 
+[autoload]
+
+GameData="*res://play_menu/game_data.gd"
+
 [application]
 
 config/name="Best Game 4 Main Menu"

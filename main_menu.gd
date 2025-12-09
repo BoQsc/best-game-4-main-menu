@@ -52,9 +52,17 @@ func _on_donate_pressed():
 func _on_discord_pressed():
 	OS.shell_open("https://discord.com/invite/tPBJXU7B6C")
 
+@onready var save_slot_menu_scene = preload("res://play_menu/save_slot_menu.tscn")
+
 func _on_play_pressed():
-	print("Play pressed! - Add scene change logic here")
-	# Example: get_tree().change_scene_to_file("res://game_scene.tscn")
+	if save_slot_menu_scene:
+		var menu_instance = save_slot_menu_scene.instantiate()
+		add_child(menu_instance)
+		menu_instance.back_pressed.connect(_on_save_menu_closed)
+		main_menu_container.visible = false
+
+func _on_save_menu_closed():
+	main_menu_container.visible = true
 
 func _on_options_pressed():
 	var options_instance = options_scene.instantiate()
