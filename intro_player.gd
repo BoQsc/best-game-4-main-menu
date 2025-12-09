@@ -19,6 +19,7 @@ extends VideoStreamPlayer
 var _logo_fade_started: bool = false
 var _sequence_finished: bool = false
 var _was_mouse_pressed: bool = false
+var _logo_fade_tween: Tween = null  # Store tween so we can kill it when skipping
 
 func _ready():
 	if GameData.skip_intro:
@@ -77,9 +78,9 @@ func _start_logo_appearance():
 		fade_overlay.visible = true
 	
 	if best_game_logo:
-		var tween = create_tween()
+		_logo_fade_tween = create_tween()
 		# Fade Logo from Invisible (0) to Visible (1) ON TOP of the video
-		tween.tween_property(best_game_logo, "modulate:a", 1.0, logo_fade_in_duration).set_trans(Tween.TRANS_SINE)
+		_logo_fade_tween.tween_property(best_game_logo, "modulate:a", 1.0, logo_fade_in_duration).set_trans(Tween.TRANS_SINE)
 
 # TRIGGER 2: Video Ends -> Cut to Black -> Fade out Logo -> Fade out Overlay
 func _on_video_finished():
@@ -110,6 +111,12 @@ func _on_video_finished():
 	if not _logo_fade_started:
 		if best_game_logo:
 			best_game_logo.modulate.a = 1.0 # Force visible immediately
+	else:
+		# If logo fade WAS started, kill the tween and force logo to full visibility
+		if _logo_fade_tween and _logo_fade_tween.is_valid():
+			_logo_fade_tween.kill()
+		if best_game_logo:
+			best_game_logo.modulate.a = 1.0
 	
 	var tween = create_tween()
 	
