@@ -109,7 +109,7 @@ texture_hover = ExtResource("10_2nhjh")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TextureButton5" type="TextureButton" parent="MainMenu"]
+[node name="BestGame4 Logo" type="TextureButton" parent="MainMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -125,7 +125,7 @@ grow_vertical = 2
 scale = Vector2(0.495, 0.495)
 texture_normal = ExtResource("3_x0ka3")
 
-[node name="Version" type="Label" parent="MainMenu/TextureButton5"]
+[node name="Version" type="Label" parent="MainMenu/BestGame4 Logo"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -141,7 +141,7 @@ grow_vertical = 0
 text = "0.0.0.0"
 label_settings = SubResource("LabelSettings_x0ka3")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/TextureButton5"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo"]
 visible = false
 layout_mode = 1
 anchors_preset = 2
@@ -158,13 +158,13 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 15
 
-[node name="DonateButton" type="TextureButton" parent="MainMenu/TextureButton5/MarginContainer2"]
+[node name="DonateButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/MarginContainer2"]
 layout_mode = 2
 texture_normal = ExtResource("6_7vxoj")
 texture_pressed = ExtResource("8_7vxoj")
 texture_hover = ExtResource("8_7vxoj")
 
-[node name="Label" type="Label" parent="MainMenu/TextureButton5/MarginContainer2/DonateButton"]
+[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo/MarginContainer2/DonateButton"]
 layout_mode = 0
 offset_left = 473.427
 offset_top = 51.23616
@@ -183,7 +183,7 @@ GDScript Modding support (Modlets, Mods, Plugins)
 "
 label_settings = SubResource("LabelSettings_7vxoj")
 
-[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/TextureButton5"]
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -202,14 +202,14 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 15
 
-[node name="DiscordButton" type="TextureButton" parent="MainMenu/TextureButton5/MarginContainer3"]
+[node name="DiscordButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/MarginContainer3"]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("9_e8dv2")
 texture_pressed = ExtResource("10_2nhjh")
 texture_hover = ExtResource("10_2nhjh")
 
-[node name="Label" type="Label" parent="MainMenu/TextureButton5/MarginContainer3/DiscordButton"]
+[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo/MarginContainer3/DiscordButton"]
 layout_mode = 0
 offset_left = 2122.4001
 offset_top = 82.269135
@@ -219,7 +219,7 @@ text = "Community
 Ideas & Chat"
 label_settings = SubResource("LabelSettings_e8dv2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/TextureButton5"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/BestGame4 Logo"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -233,41 +233,41 @@ offset_bottom = 202.60608
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu/TextureButton5/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton" type="TextureButton" parent="MainMenu/TextureButton5/HBoxContainer/MarginContainer"]
+[node name="TextureButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_kdubu")
 texture_pressed = ExtResource("4_q6r6c")
 texture_hover = ExtResource("4_q6r6c")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/TextureButton5/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton2" type="TextureButton" parent="MainMenu/TextureButton5/HBoxContainer/MarginContainer2"]
+[node name="TextureButton2" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 texture_normal = ExtResource("4_d21ai")
 texture_pressed = ExtResource("6_4d7sh")
 texture_hover = ExtResource("6_4d7sh")
 
-[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/TextureButton5/HBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton3" type="TextureButton" parent="MainMenu/TextureButton5/HBoxContainer/MarginContainer3"]
+[node name="TextureButton3" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer3"]
 layout_mode = 2
 texture_normal = ExtResource("7_ir8iy")
 texture_pressed = ExtResource("8_hqns4")
 texture_hover = ExtResource("8_hqns4")
 
-[node name="MarginContainer4" type="MarginContainer" parent="MainMenu/TextureButton5/HBoxContainer"]
+[node name="MarginContainer4" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton4" type="TextureButton" parent="MainMenu/TextureButton5/HBoxContainer/MarginContainer4"]
+[node name="TextureButton4" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer4"]
 layout_mode = 2
 texture_normal = ExtResource("5_rj586")
 texture_pressed = ExtResource("10_hqns4")
@@ -299,7 +299,7 @@ position = Vector2(37, -115)
 scale = Vector2(0.42187503, 0.4208776)
 texture = ExtResource("3_epypp")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="License" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -313,7 +313,7 @@ grow_vertical = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="License" type="Label" parent="MarginContainer"]
+[node name="License" type="Label" parent="License"]
 layout_mode = 2
 text = "2026 Limited Public Domain. No Copyright"
 
@@ -330,7 +330,8 @@ theme_override_constants/margin_bottom = 10
 
 [node name="ProblemButton" type="Button" parent="ProblemContainer"]
 layout_mode = 2
-text = "Found a problem?"
+focus_mode = 0
+text = "Found a problem? Help to fix."
 
 [node name="IntroVideo" type="TextureRect" parent="."]
 layout_mode = 1

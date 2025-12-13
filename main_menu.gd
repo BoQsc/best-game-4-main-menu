@@ -8,13 +8,13 @@ var credits_scene = preload("res://credits_menu.tscn")
 
 # Define button paths
 @onready var steam_btn = $MainMenu/VBoxContainer/SteamButton
-@onready var play_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer/TextureButton
-@onready var options_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer2/TextureButton2
-@onready var credits_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer3/TextureButton3
-@onready var quit_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer4/TextureButton4
+@onready var play_btn = $"MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer/TextureButton"
+@onready var options_btn = $"MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer2/TextureButton2"
+@onready var credits_btn = $"MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer3/TextureButton3"
+@onready var quit_btn = $"MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer4/TextureButton4"
 @onready var main_menu_container = $MainMenu
-@onready var donate_btn = $MainMenu/TextureButton5/MarginContainer2/DonateButton
-@onready var discord_btn = $MainMenu/TextureButton5/MarginContainer3/DiscordButton
+@onready var donate_btn = $"MainMenu/BestGame4 Logo/MarginContainer2/DonateButton"
+@onready var discord_btn = $"MainMenu/BestGame4 Logo/MarginContainer3/DiscordButton"
 @onready var discord_btn2 = $MainMenu/VBoxContainer/DiscordButton
 @onready var problem_btn = $ProblemContainer/ProblemButton
 
