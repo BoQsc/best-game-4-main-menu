@@ -3,6 +3,51 @@ from tkinter import ttk, filedialog, colorchooser, messagebox
 from PIL import Image, ImageTk, ImageColor, ImageDraw, ImageChops
 import math
 import threading
+import os
+import ctypes
+from ctypes import wintypes
+
+# ==========================================
+# Windows Native Drag & Drop (no third-party)
+# ==========================================
+
+# Windows API constants
+GWL_WNDPROC = -4
+WM_DROPFILES = 0x0233
+
+# Load Windows DLLs
+shell32 = ctypes.windll.shell32
+user32 = ctypes.windll.user32
+
+# DragAcceptFiles enables drag-and-drop on a window
+shell32.DragAcceptFiles.argtypes = [wintypes.HWND, wintypes.BOOL]
+shell32.DragAcceptFiles.restype = None
+
+# DragQueryFileW gets dropped file paths
+shell32.DragQueryFileW.argtypes = [wintypes.HANDLE, wintypes.UINT, wintypes.LPWSTR, wintypes.UINT]
+shell32.DragQueryFileW.restype = wintypes.UINT
+
+# DragFinish releases memory
+shell32.DragFinish.argtypes = [wintypes.HANDLE]
+shell32.DragFinish.restype = None
+
+# Window procedure type
+WNDPROC = ctypes.WINFUNCTYPE(ctypes.c_long, wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM)
+
+# SetWindowLongPtrW for 64-bit, SetWindowLongW for 32-bit
+if ctypes.sizeof(ctypes.c_void_p) == 8:
+    user32.SetWindowLongPtrW.argtypes = [wintypes.HWND, ctypes.c_int, ctypes.c_void_p]
+    user32.SetWindowLongPtrW.restype = ctypes.c_void_p
+    SetWindowLong = user32.SetWindowLongPtrW
+    user32.CallWindowProcW.argtypes = [ctypes.c_void_p, wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
+else:
+    user32.SetWindowLongW.argtypes = [wintypes.HWND, ctypes.c_int, ctypes.c_long]
+    user32.SetWindowLongW.restype = ctypes.c_long
+    SetWindowLong = user32.SetWindowLongW
+    user32.CallWindowProcW.argtypes = [ctypes.c_long, wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
+
+user32.CallWindowProcW.restype = ctypes.c_long
+
 
 # ==========================================
 # PART 1: OPTIMIZED MATH & LUTS
@@ -246,9 +291,12 @@ def run_alpha_extract(img, key_color_hex, bg_brightness, edge_softness, app_ref=
 class KeyingApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Python Keying Tool v14 (Alpha Extract)")
+        self.root.title("Python Keying Tool v15 (Drag & Drop)")
 
         self.root.geometry("1100x900")
+        
+        # Setup native Windows drag-and-drop
+        self.root.after(100, self.setup_native_drag_drop)
 
         self.ui_ready = False 
         self.picking_mode = False
@@ -641,18 +689,123 @@ class KeyingApp:
         self.lbl_color_preview.config(bg=self.key_color_hex, fg=txt, text=f"Key: {self.key_color_hex}")
 
     def load_image(self):
-        path = filedialog.askopenfilename(filetypes=[("Images", "*.png *.jpg *.jpeg")])
-        if not path: return
+        path = filedialog.askopenfilename(filetypes=[("Images", "*.png *.jpg *.jpeg *.bmp *.gif *.webp")])
+        if path:
+            self.load_image_from_path(path)
+
+    def load_image_from_path(self, path):
+        """Load an image from a file path (used by file dialog and drag-and-drop)"""
         try:
             self.original_image = Image.open(path).convert("RGBA")
             self.manual_mask = Image.new("L", self.original_image.size, 255)
             self.preview_image = self.original_image.copy()
             self.preview_image.thumbnail((400, 400))
             self.preview_mask = Image.new("L", self.preview_image.size, 255)
-            self.status_var.set(f"Loaded {path}")
+            self.status_var.set(f"Loaded {os.path.basename(path)}")
             self.zoom_scale = 1.0
             self.trigger_update()
-        except Exception as e: messagebox.showerror("Error", str(e))
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to load image:\n{str(e)}")
+
+    def setup_native_drag_drop(self):
+        """Setup Windows native drag-and-drop using ctypes (no third-party packages)"""
+        try:
+            # Force the window to be fully created first
+            self.root.update_idletasks()
+            self.root.update()
+            
+            # Get the Windows handle - need to find the actual top-level window
+            # winfo_id() gives us a child window, we need the parent
+            frame_hwnd = self.root.winfo_id()
+            
+            # Walk up to find the top-level window (the one with no parent or desktop as parent)
+            hwnd = frame_hwnd
+            desktop = user32.GetDesktopWindow()
+            
+            while True:
+                parent = user32.GetParent(hwnd)
+                if parent == 0 or parent == desktop:
+                    break
+                hwnd = parent
+            
+            self.hwnd = hwnd
+            
+            # Enable drag-and-drop on the window
+            shell32.DragAcceptFiles(hwnd, True)
+            
+            # Get the current window procedure
+            if ctypes.sizeof(ctypes.c_void_p) == 8:
+                user32.GetWindowLongPtrW.argtypes = [wintypes.HWND, ctypes.c_int]
+                user32.GetWindowLongPtrW.restype = ctypes.c_void_p
+                self.old_wndproc = user32.GetWindowLongPtrW(hwnd, GWL_WNDPROC)
+            else:
+                user32.GetWindowLongW.argtypes = [wintypes.HWND, ctypes.c_int]
+                user32.GetWindowLongW.restype = ctypes.c_long
+                self.old_wndproc = user32.GetWindowLongW(hwnd, GWL_WNDPROC)
+            
+            # Store reference to self for the callback
+            app = self
+            old_proc = self.old_wndproc
+            
+            # Create wrapper that calls our handler - MUST catch all exceptions
+            def wndproc(hwnd, msg, wparam, lparam):
+                try:
+                    if msg == WM_DROPFILES:
+                        app.handle_dropped_files(wparam)
+                        return 0
+                except:
+                    pass  # Silently ignore errors to prevent crash
+                # Always call the original window procedure
+                try:
+                    return user32.CallWindowProcW(old_proc, hwnd, msg, wparam, lparam)
+                except:
+                    return 0
+            
+            # Store the callback to prevent garbage collection
+            self.new_wndproc = WNDPROC(wndproc)
+            
+            # Set our new window procedure
+            SetWindowLong(hwnd, GWL_WNDPROC, ctypes.cast(self.new_wndproc, ctypes.c_void_p).value)
+            
+            self.status_var.set("Ready. Drag & drop images supported!")
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print(f"Drag-drop setup failed: {e}")
+            self.status_var.set("Ready. Please open an image.")
+
+    def handle_dropped_files(self, hdrop):
+        """Handle files dropped onto the window"""
+        try:
+            # Get number of files dropped
+            file_count = shell32.DragQueryFileW(hdrop, 0xFFFFFFFF, None, 0)
+            
+            if file_count > 0:
+                # Get the first file path
+                buffer_size = 260  # MAX_PATH
+                buffer = ctypes.create_unicode_buffer(buffer_size)
+                shell32.DragQueryFileW(hdrop, 0, buffer, buffer_size)
+                
+                # Store in local variable to avoid closure issues
+                file_path = str(buffer.value)
+                
+                # Check if it's an image file
+                valid_extensions = ('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.webp')
+                if file_path.lower().endswith(valid_extensions):
+                    # Use after() to handle in main thread - use default arg to capture value
+                    self.root.after(10, lambda p=file_path: self.load_image_from_path(p))
+                else:
+                    exts = ', '.join(valid_extensions)
+                    self.root.after(10, lambda: messagebox.showwarning(
+                        "Invalid File", 
+                        f"Please drop an image file ({exts})"
+                    ))
+            
+            # Release the drop handle
+            shell32.DragFinish(hdrop)
+        except Exception as e:
+            print(f"Drop handling error: {e}")
+
 
     def on_tab_change(self, event):
         tab_id = self.notebook.index(self.notebook.select())
