@@ -16,6 +16,7 @@ var credits_scene = preload("res://credits_menu.tscn")
 @onready var donate_btn = $"MainMenu/BestGame4 Logo/MarginContainer2/DonateButton"
 @onready var discord_btn = $"MainMenu/BestGame4 Logo/MarginContainer3/DiscordButton"
 @onready var discord_btn2 = $MainMenu/VBoxContainer/DiscordButton
+@onready var github_discussions_btn = $MainMenu/VBoxContainer/GithubDiscussionsButton
 @onready var problem_btn = $ProblemContainer/ProblemButton
 
 func _ready():
@@ -49,9 +50,11 @@ func _ready():
 		discord_btn2.pressed.connect(_on_discord_pressed)
 	if problem_btn:
 		problem_btn.pressed.connect(_on_problem_pressed)
+	if github_discussions_btn:
+		github_discussions_btn.pressed.connect(_on_github_discussions_pressed)
 	
 	# Connect all buttons to sound effect
-	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn, discord_btn, discord_btn2, problem_btn]
+	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn, discord_btn, discord_btn2, problem_btn, github_discussions_btn]
 	for btn in buttons:
 		if btn:
 			btn.pressed.connect(_play_click_sound)
@@ -71,6 +74,9 @@ func _on_discord_pressed():
 
 func _on_problem_pressed():
 	OS.shell_open("https://github.com/BoQsc/best-game-4/issues")
+
+func _on_github_discussions_pressed():
+	OS.shell_open("https://github.com/BoQsc/best-game-4/discussions")
 
 @onready var save_slot_menu_scene = preload("res://play_menu/save_slot_menu.tscn")
 

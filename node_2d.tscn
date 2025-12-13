@@ -112,7 +112,7 @@ texture_hover = ExtResource("10_2nhjh")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="DiscordButton2" type="TextureButton" parent="MainMenu/VBoxContainer"]
+[node name="GithubDiscussionsButton" type="TextureButton" parent="MainMenu/VBoxContainer"]
 custom_minimum_size = Vector2(167, 42)
 layout_mode = 2
 texture_normal = ExtResource("8_bjha6")
