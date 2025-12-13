@@ -331,7 +331,7 @@ theme_override_constants/margin_bottom = 10
 [node name="ProblemButton" type="Button" parent="ProblemContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "Found a problem? Help to fix."
+text = "❤️ Found a problem? Help me to fix."
 
 [node name="IntroVideo" type="TextureRect" parent="."]
 layout_mode = 1
