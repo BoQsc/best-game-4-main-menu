@@ -7,7 +7,7 @@ var options_scene = preload("res://options_menu.tscn")
 var credits_scene = preload("res://credits_menu.tscn")
 
 # Define button paths
-@onready var steam_btn = $MainMenu/MarginContainer/SteamButton
+@onready var steam_btn = $MainMenu/VBoxContainer/SteamButton
 @onready var play_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer/TextureButton
 @onready var options_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer2/TextureButton2
 @onready var credits_btn = $MainMenu/TextureButton5/HBoxContainer/MarginContainer3/TextureButton3
@@ -15,6 +15,7 @@ var credits_scene = preload("res://credits_menu.tscn")
 @onready var main_menu_container = $MainMenu
 @onready var donate_btn = $MainMenu/TextureButton5/MarginContainer2/DonateButton
 @onready var discord_btn = $MainMenu/TextureButton5/MarginContainer3/DiscordButton
+@onready var discord_btn2 = $MainMenu/VBoxContainer/DiscordButton
 
 func _ready():
 	# Set custom mouse cursor (scaled down by 85% -> 0.15 size)
@@ -43,9 +44,11 @@ func _ready():
 		donate_btn.pressed.connect(_on_donate_pressed)
 	if discord_btn:
 		discord_btn.pressed.connect(_on_discord_pressed)
+	if discord_btn2:
+		discord_btn2.pressed.connect(_on_discord_pressed)
 	
 	# Connect all buttons to sound effect
-	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn, discord_btn]
+	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn, discord_btn, discord_btn2]
 	for btn in buttons:
 		if btn:
 			btn.pressed.connect(_play_click_sound)
