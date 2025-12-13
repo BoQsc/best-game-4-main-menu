@@ -317,6 +317,21 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 text = "2026 Limited Public Domain. No Copyright"
 
+[node name="ProblemContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -30.0
+offset_right = 150.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ProblemButton" type="Button" parent="ProblemContainer"]
+layout_mode = 2
+text = "Found a problem?"
+
 [node name="IntroVideo" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15

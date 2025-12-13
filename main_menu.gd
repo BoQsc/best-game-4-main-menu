@@ -16,6 +16,7 @@ var credits_scene = preload("res://credits_menu.tscn")
 @onready var donate_btn = $MainMenu/TextureButton5/MarginContainer2/DonateButton
 @onready var discord_btn = $MainMenu/TextureButton5/MarginContainer3/DiscordButton
 @onready var discord_btn2 = $MainMenu/VBoxContainer/DiscordButton
+@onready var problem_btn = $ProblemContainer/ProblemButton
 
 func _ready():
 	# Set custom mouse cursor (scaled down by 85% -> 0.15 size)
@@ -46,9 +47,11 @@ func _ready():
 		discord_btn.pressed.connect(_on_discord_pressed)
 	if discord_btn2:
 		discord_btn2.pressed.connect(_on_discord_pressed)
+	if problem_btn:
+		problem_btn.pressed.connect(_on_problem_pressed)
 	
 	# Connect all buttons to sound effect
-	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn, discord_btn, discord_btn2]
+	var buttons = [steam_btn, play_btn, options_btn, credits_btn, quit_btn, donate_btn, discord_btn, discord_btn2, problem_btn]
 	for btn in buttons:
 		if btn:
 			btn.pressed.connect(_play_click_sound)
@@ -65,6 +68,9 @@ func _on_donate_pressed():
 
 func _on_discord_pressed():
 	OS.shell_open("https://discord.com/invite/tPBJXU7B6C")
+
+func _on_problem_pressed():
+	OS.shell_open("https://github.com/BoQsc/best-game-4/issues")
 
 @onready var save_slot_menu_scene = preload("res://play_menu/save_slot_menu.tscn")
 
