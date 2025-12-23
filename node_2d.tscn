@@ -343,7 +343,7 @@ theme_override_constants/margin_bottom = 10
 [node name="ProblemButton" type="Button" parent="ProblemContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "🔄 Help me improve the game."
+text = "🔄 Help me improve the game"
 
 [node name="IntroVideo" type="TextureRect" parent="."]
 layout_mode = 1
