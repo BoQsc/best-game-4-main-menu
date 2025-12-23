@@ -11,46 +11,68 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.05, 0.05, 0.05, 0.95)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="CreditsText" type="RichTextLabel" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -100.0
-offset_right = 150.0
-offset_bottom = 100.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
+bbcode_enabled = true
+text = "[center]
+[font_size=50][b]BEST GAME 4[/b][/font_size]
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "CREDITS"
-horizontal_alignment = 1
+[font_size=24]Thank you for playing![/font_size]
 
-[node name="CreditsText" type="Label" parent="Panel/VBoxContainer"]
-layout_mode = 2
-text = "Game Design: The Team
-Programming: BoQsc
-Art: The Team
-Music: under-the-bleak-sky"
-horizontal_alignment = 1
 
-[node name="BackButton" type="Button" parent="Panel/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
+[font_size=32][b]- THE TEAM -[/b][/font_size]
+
+[b]Game Design[/b]
+The Team
+
+[b]Programming[/b]
+BoQsc
+
+[b]Art[/b]
+The Team
+
+[b]Music[/b]
+\"Under the Bleak Sky\"
+by Post Apocalyptic Cinematic Music
+
+
+[font_size=32][b]- SPECIAL THANKS -[/b][/font_size]
+
+Godot Engine Contributors
+Open Source Community
+You!
+
+[/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Back"
 
-[connection signal="pressed" from="Panel/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
