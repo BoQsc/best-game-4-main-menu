@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dmuoprrg3jyef"]
+[gd_scene format=3 uid="uid://dmuoprrg3jyef"]
 
 [ext_resource type="VideoStream" uid="uid://c4ffv0l01nen5" path="res://backgroundanimbestgame-1.ogv" id="1_wtcfe"]
 [ext_resource type="AudioStream" uid="uid://cxjh7t0n731pk" path="res://under-the-bleak-sky-post-apocalyptic-cinematic-music-436655.mp3" id="2_0e48y"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://biqj6qf6nkegv" path="res://main_menu.gd" id="17_main_menu"]
 [ext_resource type="AudioStream" uid="uid://c8srkodwpjkbo" path="res://sfx/computer-mouse-click-352734.mp3" id="18_click_sfx"]
 [ext_resource type="Script" uid="uid://mir1l8eqypah" path="res://intro_player.gd" id="19_intro_player"]
+[ext_resource type="Texture2D" uid="uid://h1qe46fd46lq" path="res://HSG-logo.png" id="21_gt76g"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_epypp"]
 viewport_path = NodePath("MainMenuBackground/SubViewport")
@@ -41,7 +42,7 @@ font_size = 150
 [sub_resource type="ViewportTexture" id="ViewportTexture_d2bti"]
 viewport_path = NodePath("IntroVideo/SubViewport")
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=794848661]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("17_main_menu")
 
-[node name="MainMenuBackground" type="TextureRect" parent="."]
+[node name="MainMenuBackground" type="TextureRect" parent="." unique_id=987398676]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,10 +60,10 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_epypp")
 
-[node name="SubViewport" type="SubViewport" parent="MainMenuBackground"]
+[node name="SubViewport" type="SubViewport" parent="MainMenuBackground" unique_id=1404580407]
 size = Vector2i(1100, 500)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="MainMenuBackground/SubViewport"]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="MainMenuBackground/SubViewport" unique_id=1049210219]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -73,12 +74,12 @@ autoplay = true
 expand = true
 loop = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainMenuBackground/SubViewport"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainMenuBackground/SubViewport" unique_id=1229945132]
 stream = ExtResource("2_0e48y")
 volume_db = -15.678
 autoplay = true
 
-[node name="MainMenu" type="Panel" parent="."]
+[node name="MainMenu" type="Panel" parent="." unique_id=1160272068]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,7 +87,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu" unique_id=862957881]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -96,13 +97,13 @@ offset_top = 15.0
 offset_right = -20.0
 grow_horizontal = 0
 
-[node name="SteamButton" type="TextureButton" parent="MainMenu/VBoxContainer"]
+[node name="SteamButton" type="TextureButton" parent="MainMenu/VBoxContainer" unique_id=208145279]
 layout_mode = 2
 texture_normal = ExtResource("3_nr8wp")
 texture_pressed = ExtResource("4_d2bti")
 texture_hover = ExtResource("4_d2bti")
 
-[node name="DiscordButton" type="TextureButton" parent="MainMenu/VBoxContainer"]
+[node name="DiscordButton" type="TextureButton" parent="MainMenu/VBoxContainer" unique_id=1460737934]
 visible = false
 custom_minimum_size = Vector2(167, 42)
 layout_mode = 2
@@ -112,7 +113,7 @@ texture_hover = ExtResource("10_2nhjh")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="GithubDiscussionsButton" type="TextureButton" parent="MainMenu/VBoxContainer"]
+[node name="GithubDiscussionsButton" type="TextureButton" parent="MainMenu/VBoxContainer" unique_id=1933637577]
 custom_minimum_size = Vector2(167, 42)
 layout_mode = 2
 texture_normal = ExtResource("8_bjha6")
@@ -121,7 +122,8 @@ texture_hover = ExtResource("9_gt76g")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BestGame4 Logo" type="TextureButton" parent="MainMenu"]
+[node name="BestGame4 Logo3" type="TextureButton" parent="MainMenu" unique_id=985232953]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -137,7 +139,7 @@ grow_vertical = 2
 scale = Vector2(0.495, 0.495)
 texture_normal = ExtResource("3_x0ka3")
 
-[node name="Version" type="Label" parent="MainMenu/BestGame4 Logo"]
+[node name="Version" type="Label" parent="MainMenu/BestGame4 Logo3" unique_id=843482379]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -153,7 +155,7 @@ grow_vertical = 0
 text = "0.0.0.0"
 label_settings = SubResource("LabelSettings_x0ka3")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo3" unique_id=841962391]
 visible = false
 layout_mode = 1
 anchors_preset = 2
@@ -170,13 +172,13 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 15
 
-[node name="DonateButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/MarginContainer2"]
+[node name="DonateButton" type="TextureButton" parent="MainMenu/BestGame4 Logo3/MarginContainer2" unique_id=1853081297]
 layout_mode = 2
 texture_normal = ExtResource("6_7vxoj")
 texture_pressed = ExtResource("8_7vxoj")
 texture_hover = ExtResource("8_7vxoj")
 
-[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo/MarginContainer2/DonateButton"]
+[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo3/MarginContainer2/DonateButton" unique_id=138292926]
 layout_mode = 0
 offset_left = 473.427
 offset_top = 51.23616
@@ -195,7 +197,7 @@ GDScript Modding support (Modlets, Mods, Plugins)
 "
 label_settings = SubResource("LabelSettings_7vxoj")
 
-[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo"]
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo3" unique_id=689517779]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -214,14 +216,14 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 15
 
-[node name="DiscordButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/MarginContainer3"]
+[node name="DiscordButton" type="TextureButton" parent="MainMenu/BestGame4 Logo3/MarginContainer3" unique_id=1880856890]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("9_e8dv2")
 texture_pressed = ExtResource("10_2nhjh")
 texture_hover = ExtResource("10_2nhjh")
 
-[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo/MarginContainer3/DiscordButton"]
+[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo3/MarginContainer3/DiscordButton" unique_id=1018099607]
 layout_mode = 0
 offset_left = 2122.4001
 offset_top = 82.269135
@@ -231,7 +233,7 @@ text = "Community
 Ideas & Chat"
 label_settings = SubResource("LabelSettings_e8dv2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/BestGame4 Logo"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/BestGame4 Logo3" unique_id=1143130290]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -245,47 +247,212 @@ offset_bottom = 202.60608
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/BestGame4 Logo3/HBoxContainer" unique_id=1522581255]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer"]
+[node name="TextureButton" type="TextureButton" parent="MainMenu/BestGame4 Logo3/HBoxContainer/MarginContainer" unique_id=1004710945]
 layout_mode = 2
 texture_normal = ExtResource("3_kdubu")
 texture_pressed = ExtResource("4_q6r6c")
 texture_hover = ExtResource("4_q6r6c")
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo3/HBoxContainer" unique_id=126469482]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton2" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer2"]
+[node name="TextureButton2" type="TextureButton" parent="MainMenu/BestGame4 Logo3/HBoxContainer/MarginContainer2" unique_id=2137595963]
 layout_mode = 2
 texture_normal = ExtResource("4_d21ai")
 texture_pressed = ExtResource("6_4d7sh")
 texture_hover = ExtResource("6_4d7sh")
 
-[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo3/HBoxContainer" unique_id=1623850178]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton3" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer3"]
+[node name="TextureButton3" type="TextureButton" parent="MainMenu/BestGame4 Logo3/HBoxContainer/MarginContainer3" unique_id=1981063657]
 layout_mode = 2
 texture_normal = ExtResource("7_ir8iy")
 texture_pressed = ExtResource("8_hqns4")
 texture_hover = ExtResource("8_hqns4")
 
-[node name="MarginContainer4" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer"]
+[node name="MarginContainer4" type="MarginContainer" parent="MainMenu/BestGame4 Logo3/HBoxContainer" unique_id=792969964]
 layout_mode = 2
 theme_override_constants/margin_right = 50
 
-[node name="TextureButton4" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer4"]
+[node name="TextureButton4" type="TextureButton" parent="MainMenu/BestGame4 Logo3/HBoxContainer/MarginContainer4" unique_id=471279950]
 layout_mode = 2
 texture_normal = ExtResource("5_rj586")
 texture_pressed = ExtResource("10_hqns4")
 texture_hover = ExtResource("10_hqns4")
 
-[node name="Panel" type="CenterContainer" parent="."]
+[node name="BestGame4 Logo" type="TextureButton" parent="MainMenu" unique_id=131157083]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -487.0
+offset_top = -108.0
+offset_right = 3409.0
+offset_bottom = 980.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.24, 0.24)
+texture_normal = ExtResource("21_gt76g")
+
+[node name="Version" type="Label" parent="MainMenu/BestGame4 Logo" unique_id=1506495459]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -233.44446
+offset_top = -40.525238
+offset_right = -43.444458
+offset_bottom = 43.474762
+grow_horizontal = 0
+grow_vertical = 0
+text = "0.0.0.0"
+label_settings = SubResource("LabelSettings_x0ka3")
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo" unique_id=66963567]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = 212.0
+offset_right = 382.0
+offset_bottom = 375.00024
+grow_vertical = 0
+scale = Vector2(0.61, 0.61)
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
+
+[node name="DonateButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/MarginContainer2" unique_id=364186294]
+layout_mode = 2
+texture_normal = ExtResource("6_7vxoj")
+texture_pressed = ExtResource("8_7vxoj")
+texture_hover = ExtResource("8_7vxoj")
+
+[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo/MarginContainer2/DonateButton" unique_id=1777715717]
+layout_mode = 0
+offset_left = 473.427
+offset_top = 51.23616
+offset_right = 987.30396
+offset_bottom = 480.23615
+size_flags_horizontal = 8
+text = "Multiplayer Support
+GDExtension C++ Research
+Performance and Maintenance
+Content, 3D Models, Art
+Living support
+Development Hardware.
+Tools, Future outlooks
+Community support
+GDScript Modding support (Modlets, Mods, Plugins)
+"
+label_settings = SubResource("LabelSettings_7vxoj")
+
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo" unique_id=562365994]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -795.51
+offset_top = 430.24243
+offset_right = 1260.49
+offset_bottom = 1017.2427
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.155, 0.155)
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
+
+[node name="DiscordButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/MarginContainer3" unique_id=2124947234]
+visible = false
+layout_mode = 2
+texture_normal = ExtResource("9_e8dv2")
+texture_pressed = ExtResource("10_2nhjh")
+texture_hover = ExtResource("10_2nhjh")
+
+[node name="Label" type="Label" parent="MainMenu/BestGame4 Logo/MarginContainer3/DiscordButton" unique_id=2013975994]
+layout_mode = 0
+offset_left = 2122.4001
+offset_top = 82.269135
+offset_right = 3586.4001
+offset_bottom = 622.26917
+text = "Community
+Ideas & Chat"
+label_settings = SubResource("LabelSettings_e8dv2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/BestGame4 Logo" unique_id=1766266163]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1210.5
+offset_top = 74.5
+offset_right = 634.5
+offset_bottom = 204.5
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.34, 1.34)
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer" unique_id=1086800392]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer" unique_id=1294416418]
+layout_mode = 2
+texture_normal = ExtResource("3_kdubu")
+texture_pressed = ExtResource("4_q6r6c")
+texture_hover = ExtResource("4_q6r6c")
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer" unique_id=1134819664]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton2" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer2" unique_id=1152176850]
+layout_mode = 2
+texture_normal = ExtResource("4_d21ai")
+texture_pressed = ExtResource("6_4d7sh")
+texture_hover = ExtResource("6_4d7sh")
+
+[node name="MarginContainer3" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer" unique_id=2063657681]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton3" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer3" unique_id=1165782579]
+layout_mode = 2
+texture_normal = ExtResource("7_ir8iy")
+texture_pressed = ExtResource("8_hqns4")
+texture_hover = ExtResource("8_hqns4")
+
+[node name="MarginContainer4" type="MarginContainer" parent="MainMenu/BestGame4 Logo/HBoxContainer" unique_id=350464981]
+layout_mode = 2
+theme_override_constants/margin_right = 50
+
+[node name="TextureButton4" type="TextureButton" parent="MainMenu/BestGame4 Logo/HBoxContainer/MarginContainer4" unique_id=660957113]
+layout_mode = 2
+texture_normal = ExtResource("5_rj586")
+texture_pressed = ExtResource("10_hqns4")
+texture_hover = ExtResource("10_hqns4")
+
+[node name="Panel" type="CenterContainer" parent="." unique_id=1514766223]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -303,15 +470,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 16.72
 
-[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+[node name="CenterContainer" type="CenterContainer" parent="Panel" unique_id=1766999771]
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="Panel/CenterContainer"]
+[node name="Sprite2D" type="Sprite2D" parent="Panel/CenterContainer" unique_id=1591008532]
 position = Vector2(37, -115)
 scale = Vector2(0.42187503, 0.4208776)
 texture = ExtResource("3_epypp")
 
-[node name="License" type="MarginContainer" parent="."]
+[node name="License" type="MarginContainer" parent="." unique_id=489661649]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -325,11 +492,11 @@ grow_vertical = 0
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="License" type="Label" parent="License"]
+[node name="License" type="Label" parent="License" unique_id=337249971]
 layout_mode = 2
 text = "2026 Limited Public Domain. No Copyright"
 
-[node name="ProblemContainer" type="MarginContainer" parent="."]
+[node name="ProblemContainer" type="MarginContainer" parent="." unique_id=1456140172]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -340,12 +507,12 @@ grow_vertical = 0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ProblemButton" type="Button" parent="ProblemContainer"]
+[node name="ProblemButton" type="Button" parent="ProblemContainer" unique_id=1343160662]
 layout_mode = 2
 focus_mode = 0
 text = "🔄 Help me improve the game"
 
-[node name="IntroVideo" type="TextureRect" parent="."]
+[node name="IntroVideo" type="TextureRect" parent="." unique_id=518063031]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -354,11 +521,11 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_d2bti")
 
-[node name="SubViewport" type="SubViewport" parent="IntroVideo"]
+[node name="SubViewport" type="SubViewport" parent="IntroVideo" unique_id=1269252884]
 transparent_bg = true
 size = Vector2i(1100, 512)
 
-[node name="FadeOverlay" type="ColorRect" parent="IntroVideo/SubViewport"]
+[node name="FadeOverlay" type="ColorRect" parent="IntroVideo/SubViewport" unique_id=1773889352]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -366,7 +533,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo", "music_player")]
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="IntroVideo/SubViewport" unique_id=482603808 node_paths=PackedStringArray("fade_overlay", "intro_container", "best_game_logo", "music_player")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -381,11 +548,11 @@ intro_container = NodePath("../..")
 best_game_logo = NodePath("../BestGameProductionsLogo")
 music_player = NodePath("../../../MainMenuBackground/SubViewport/AudioStreamPlayer")
 
-[node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport"]
+[node name="BestGameProductionsLogo" type="Sprite2D" parent="IntroVideo/SubViewport" unique_id=1917296418]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(556.195, 288)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("15_ta5nu")
 
-[node name="ClickSoundPlayer" type="AudioStreamPlayer" parent="."]
+[node name="ClickSoundPlayer" type="AudioStreamPlayer" parent="." unique_id=579637439]
 stream = ExtResource("18_click_sfx")
